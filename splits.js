@@ -38,116 +38,86 @@ const splitsData = {
     const fifthSplit = document.getElementById('fifth-split');
 
     function updateTableHeaders() {
-      const puzzleType = document.getElementById("puzzle-select").value;
       const methodType = document.getElementById("method-select").value;
-      const l9eButton = document.getElementById("l9e-toggle-button");
-      const f4cButton = document.getElementById("f4c-toggle-button");
 
-      // Show checkbox only if method is Hoya
-      if (methodType === "Hoya") {
-        f4cButton.classList.remove("hidden");
-      } else {
-        f4cButton.classList.add("hidden");
+      // This will hide all optional inputs and reset the headers
+      document.querySelectorAll('.yau-split-input').forEach(e => e.classList.add('hidden'));
+      document.querySelectorAll('.hoya-split-input').forEach(e => e.classList.add('hidden'));
+      document.getElementById("first-header").classList.remove("hidden");
+      document.getElementById("first-split").classList.remove("hidden");
+      document.getElementById("fourth-header").classList.remove("hidden");
+      document.getElementById("fourth-split").classList.remove("hidden");
 
-        // Reset back to default F4C if user switches methods
-        document.getElementById("toggle-f4c").checked = false;
-        toggleF4C();
-      }
+      // Hide both toggle buttons initially
+      document.getElementById("l9e-toggle-button").classList.add("hidden");
+      document.getElementById("f4c-toggle-button").classList.add("hidden");
 
-      // Show checkbox only if method is Yau
       if (methodType === "Yau") {
-        l9eButton.classList.remove("hidden");
-      } else {
-        l9eButton.classList.add("hidden");
+        document.getElementById("l9e-toggle-button").classList.remove("hidden");
 
-        // Reset back to default L9E if user switches methods
-        document.getElementById("toggle-l9e").checked = false;
-        toggleL9E();
-      }
-
-      // For Yau
-      if (
-        (methodType === "Yau")
-      ) {
-        firstSplitHeader.textContent = "F2C";
+        firstSplitHeader.textContent  = "F2C";
         secondSplitHeader.textContent = "F3E";
-        thirdSplitHeader.textContent = "L4C";
+        thirdSplitHeader.textContent  = "L4C";
         fourthSplitHeader.textContent = "L9E";
-        fifthSplitHeader.textContent = "3x3";
-      }
+        fifthSplitHeader.textContent  = "3x3";
 
-      // For Reduction
-      if (
-        (methodType === "Redux")
-      ) {
-        firstSplitHeader.textContent = "F2C";
+      } else if (methodType === "Redux") {
+        firstSplitHeader.textContent  = "F2C";
         secondSplitHeader.textContent = "L4C";
-        thirdSplitHeader.textContent = "F8E";
+        thirdSplitHeader.textContent  = "F8E";
         fourthSplitHeader.textContent = "L4E";
-        fifthSplitHeader.textContent = "3x3";
-      }
+        fifthSplitHeader.textContent  = "3x3";
 
-      // For Hoya
-      if (
-        (methodType === "Hoya")
-      ) {
-        firstSplitHeader.textContent = "F4C";
+      } else if (methodType === "Hoya") {
+        document.getElementById("f4c-toggle-button").classList.remove("hidden");
+
+        firstSplitHeader.textContent  = "F4C";
         secondSplitHeader.textContent = "F4E";
-        thirdSplitHeader.textContent = "L2C";
+        thirdSplitHeader.textContent  = "L2C";
         fourthSplitHeader.textContent = "L8E";
-        fifthSplitHeader.textContent = "3x3";
+        fifthSplitHeader.textContent  = "3x3";
       }
-    }
-
-    function updateSplits() {
-
     }
 
     function toggleL9E() {
-      // This is to toggle the separate L9E columns (LCE + L8E)
-      document.querySelectorAll('.yau-split-input').forEach(yauSplit => {
-        yauSplit.classList.toggle('hidden');
-      });
+      const checked = document.getElementById("toggle-l9e").checked;
+      if (checked) {
+        document.querySelectorAll('.yau-split-input').forEach(e => e.classList.remove('hidden'));
+        document.getElementById("fourth-header").classList.add("hidden");
+        document.getElementById("fourth-split").classList.add("hidden");
 
-      document.getElementById("fourth-header").classList.toggle("hidden");
-      document.getElementById("fourth-split").classList.toggle("hidden");
-    }
-
-    function resetL9E() {
-      // This is to reset back to default L9E
-      document.querySelectorAll('.yau-split-input').forEach(yauSplit => {
-        yauSplit.classList.add('hidden');
-      });
-
-      document.getElementById("fourth-header").classList.remove("hidden");
-      document.getElementById("fourth-split").classList.remove("hidden");
+      } else {
+        updateTableHeaders();
+      }
     }
 
     function toggleF4C() {
-      // This is to toggle the separate F4C columns (F2C + M2C)
-      document.querySelectorAll('.hoya-split-input').forEach(hoyaSplit => {
-        hoyaSplit.classList.toggle('hidden');
-      });
+      const checked = document.getElementById("toggle-f4c").checked;
+      if (checked) {
+        document.querySelectorAll('.hoya-split-input').forEach(e => e.classList.remove('hidden'));
+        document.getElementById("first-header").classList.add("hidden");
+        document.getElementById("first-split").classList.add("hidden");
 
-      document.getElementById("first-header").classList.toggle("hidden");
-      document.getElementById("first-split").classList.toggle("hidden");
+      } else {
+        updateTableHeaders();
+      }
     }
 
-    function resetF4C() {
-      // This is to reset back to default F4C
-      document.querySelectorAll('.hoya-split-input').forEach(hoyaSplit => {
-        hoyaSplit.classList.add('hidden');
-      });
-      document.getElementById("first-header").classList.remove("hidden");
-      document.getElementById("first-split").classList.remove("hidden");
-    }
+    puzzle.addEventListener('change', () => {
+      updateTableHeaders();
+      updateSplits();
+    });
 
+    method.addEventListener('change', () => {
+      updateTableHeaders();
+      updateSplits();
+    });
 
-
-    puzzle.addEventListener('change', updateSplits);
-    method.addEventListener('change', updateSplits);
     avg.addEventListener("input", updateSplits);
+
+    updateTableHeaders();
     updateSplits();
+
 
 
 
