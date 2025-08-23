@@ -15,7 +15,7 @@
     <!-- Label is basically the caption for a form control (i.e. those input, option, button, radio buttons, etc) -->
     <label>
         Select Puzzle:
-        <select id="puzzle-select">
+        <select id="puzzle-select" onchange="updateTableHeaders()">
             <option value="4x4">4x4</option>
             <option value="5x5">5x5</option>
             <option value="6x6">6x6</option>
@@ -26,7 +26,7 @@
 
     <label>
         Select Method:
-        <select id="method-select">
+        <select id="method-select" onchange="updateTableHeaders()">
             <option value="Yau">Yau</option>
             <option value="Redux">Reduction</option>
             <option value="Hoya">Hoya</option>
@@ -40,28 +40,44 @@
     </label>
     <br><br>
 
-     <h3>Here’s what your splits should be:</h3>
-  <table border="1" cellpadding="6">
-    <thead>
-      <tr>
-        <th>F2C</th>
-        <th>F3E</th>
-        <th>L4C</th>
-        <th>L9E</th>
-        <th>3x3</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td id="f2c">-</td>
-        <td id="f3e">-</td>
-        <td id="l4c">-</td>
-        <td id="l9e">-</td>
-        <td id="3x3">-</td>
-      </tr>
-    </tbody>
-  </table>
+    <div id="l9e-toggle-button" class="hidden">
+      <input type="checkbox" id="toggle-l9e" onclick="toggleL9E()"> Separate L9E Split
+    </div>
 
+    <div id="f4c-toggle-button" class="hidden">
+      <input type="checkbox" id="toggle-f4c" onclick="toggleF4C()"> Separate F4C Split
+    </div>
+    <br>
+
+     <h3>Here’s what your splits should be:</h3>
+    <table border="1" cellpadding="6">
+      <thead>
+        <tr>
+          <th id="first-header">F2C</th>
+          <th class="hoya-split-input hidden">F2C</th>
+          <th class="hoya-split-input hidden">M2C</th>
+          <th id="second-header">F3E</th>
+          <th id="third-header">L4C</th>
+          <th id="fourth-header">L9E</th>
+          <th class="yau-split-input hidden">LCE</th>
+          <th class="yau-split-input hidden">L8E</th>
+          <th id="fifth-header">3x3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="first-split">-</td>
+          <td id="hoya-split-1" class="hoya-split-input hidden">-</td>
+          <td id="hoya-split-2" class="hoya-split-input hidden">-</td>
+          <td id="second-split">-</td>
+          <td id="third-split">-</td>
+          <td id="fourth-split">-</td>
+          <td id="yau-split-1" class="yau-split-input hidden">-</td>
+          <td id="yau-split-2" class="yau-split-input hidden">-</td>
+          <td id="fifth-split">-</td>
+        </tr>
+      </tbody>
+    </table>
 
 </body>
 </html>
