@@ -25,33 +25,123 @@ const splitsData = {
     const method = document.getElementById('method-select');
     const avg = document.getElementById('global-average');
 
-    const f2c = document.getElementById('f2c');
-    const f3e = document.getElementById('f3e');
-    const l4c = document.getElementById('l4c');
-    const l9e = document.getElementById('l9e');
-    const threebythree = document.getElementById('3x3');
+    const firstSplitHeader = document.getElementById('first-header');
+    const secondSplitHeader = document.getElementById('second-header');
+    const thirdSplitHeader = document.getElementById('third-header');
+    const fourthSplitHeader = document.getElementById('fourth-header');
+    const fifthSplitHeader = document.getElementById('fifth-header');
 
-    function updateSplits() {
-      const puzzleType = puzzle.value;
-      const methodType = method.value;
-      const average = parseFloat(avg.value);
+    const firstSplit = document.getElementById('first-split');
+    const secondSplit = document.getElementById('second-split');
+    const thirdSplit = document.getElementById('third-split');
+    const fourthSplit = document.getElementById('fourth-split');
+    const fifthSplit = document.getElementById('fifth-split');
 
-      if (isNaN(average) || !splitsData[puzzleType] || !splitsData[puzzleType][methodType]) {
-        f2c.textContent = 'N/A';
-        f3e.textContent = 'N/A';
-        l4c.textContent = 'N/A';
-        l9e.textContent = 'N/A';
-        threebythree.textContent = 'N/A';
-        return;
+    function updateTableHeaders() {
+      const puzzleType = document.getElementById("puzzle-select").value;
+      const methodType = document.getElementById("method-select").value;
+      const l9eButton = document.getElementById("l9e-toggle-button");
+      const f4cButton = document.getElementById("f4c-toggle-button");
+
+      // Show checkbox only if method is Hoya
+      if (methodType === "Hoya") {
+        f4cButton.classList.remove("hidden");
+      } else {
+        f4cButton.classList.add("hidden");
+
+        // Reset back to default F4C if user switches methods
+        document.getElementById("toggle-f4c").checked = false;
+        toggleF4C();
       }
 
-      const splits = splitsData[puzzleType][methodType];
-      f2c.textContent = (splits[0] * average).toFixed(2) + ' s';
-      f3e.textContent = (splits[1] * average).toFixed(2) + ' s';
-      l4c.textContent = (splits[2] * average).toFixed(2) + ' s';
-      l9e.textContent = (splits[3] * average).toFixed(2) + ' s';
-      threebythree.textContent = (splits[4] * average).toFixed(2) + ' s';
+      // Show checkbox only if method is Yau
+      if (methodType === "Yau") {
+        l9eButton.classList.remove("hidden");
+      } else {
+        l9eButton.classList.add("hidden");
+
+        // Reset back to default L9E if user switches methods
+        document.getElementById("toggle-l9e").checked = false;
+        toggleL9E();
+      }
+
+      // For Yau
+      if (
+        (methodType === "Yau")
+      ) {
+        firstSplitHeader.textContent = "F2C";
+        secondSplitHeader.textContent = "F3E";
+        thirdSplitHeader.textContent = "L4C";
+        fourthSplitHeader.textContent = "L9E";
+        fifthSplitHeader.textContent = "3x3";
+      }
+
+      // For Reduction
+      if (
+        (methodType === "Redux")
+      ) {
+        firstSplitHeader.textContent = "F2C";
+        secondSplitHeader.textContent = "L4C";
+        thirdSplitHeader.textContent = "F8E";
+        fourthSplitHeader.textContent = "L4E";
+        fifthSplitHeader.textContent = "3x3";
+      }
+
+      // For Hoya
+      if (
+        (methodType === "Hoya")
+      ) {
+        firstSplitHeader.textContent = "F4C";
+        secondSplitHeader.textContent = "F4E";
+        thirdSplitHeader.textContent = "L2C";
+        fourthSplitHeader.textContent = "L8E";
+        fifthSplitHeader.textContent = "3x3";
+      }
     }
+
+    function updateSplits() {
+
+    }
+
+    function toggleL9E() {
+      // This is to toggle the separate L9E columns (LCE + L8E)
+      document.querySelectorAll('.yau-split-input').forEach(yauSplit => {
+        yauSplit.classList.toggle('hidden');
+      });
+
+      document.getElementById("fourth-header").classList.toggle("hidden");
+      document.getElementById("fourth-split").classList.toggle("hidden");
+    }
+
+    function resetL9E() {
+      // This is to reset back to default L9E
+      document.querySelectorAll('.yau-split-input').forEach(yauSplit => {
+        yauSplit.classList.add('hidden');
+      });
+
+      document.getElementById("fourth-header").classList.remove("hidden");
+      document.getElementById("fourth-split").classList.remove("hidden");
+    }
+
+    function toggleF4C() {
+      // This is to toggle the separate F4C columns (F2C + M2C)
+      document.querySelectorAll('.hoya-split-input').forEach(hoyaSplit => {
+        hoyaSplit.classList.toggle('hidden');
+      });
+
+      document.getElementById("first-header").classList.toggle("hidden");
+      document.getElementById("first-split").classList.toggle("hidden");
+    }
+
+    function resetF4C() {
+      // This is to reset back to default F4C
+      document.querySelectorAll('.hoya-split-input').forEach(hoyaSplit => {
+        hoyaSplit.classList.add('hidden');
+      });
+      document.getElementById("first-header").classList.remove("hidden");
+      document.getElementById("first-split").classList.remove("hidden");
+    }
+
 
 
     puzzle.addEventListener('change', updateSplits);
