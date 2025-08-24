@@ -8,20 +8,21 @@ const splitsSteps = {
   "5x5": {
     "Yau":   ["F2C", "F3E", "L4C", "L9E", "LCE", "L8E", "3x3"],
     "Redux": ["F2C", "L4C", "F8E", "L4E", "3x3"],
-    "Hoya":  ["F4C", "F2C", "M2C", "L2C", "L8E", "3x3"]
+    "Hoya":  ["F4C", "F2C", "M2C", "F4E", "L2C", "L8E", "3x3"]
   },
   "6x6": {
     "Yau":   ["F2C", "F3E", "L4C", "L9E", "LCE", "L8E", "3x3"],
     "Redux": ["F2C", "L4C", "F8E", "L4E", "3x3"],
-    "Hoya":  ["F4C", "F2C", "M2C", "L2C", "L8E", "3x3"]
+    "Hoya":  ["F4C", "F2C", "M2C", "F4E", "L2C", "L8E", "3x3"]
   },
   "7x7": {
     "Yau":   ["F2C", "F3E", "L4C", "L9E", "LCE", "L8E", "3x3"],
     "Redux": ["F2C", "L4C", "F8E", "L4E", "3x3"],
-    "Hoya":  ["F4C", "F2C", "M2C", "L2C", "L8E", "3x3"]
+    "Hoya":  ["F4C", "F2C", "M2C", "F4E", "L2C", "L8E", "3x3"]
   }
 };
 
+// These are the average proportions for each step in each method
 const splitsData = {
   "Yau": {
     "5x5": { "F2C": 0.1575, "F3E": 0.146, "L4C": 0.188, "L9E": 0.3475, "3x3": 0.1605 },
@@ -45,22 +46,41 @@ const methodSelect = document.getElementById("method-select");
 const tableHead = document.querySelector("#splits-table thead");
 const tableBody = document.querySelector("#splits-table tbody");
 
-// Create an array that represents what I want to show in the table
-function buildTableArray(puzzle, method) {
+// This is an input for global average time in seconds
+const avgInput = document.getElementById("global-average");
 
-  // Pull the header names from splitsSteps
+// Create an array that represents what I want to show in the table
+function buildTableArray(puzzle, method, avgSeconds) {
+  // 1. Get the step names for puzzle+method
   const steps = splitsSteps[puzzle][method];
 
-  // Start building the table as an array of rows
+  // 2. Start building the table rows
   const tableArray = [];
 
-  // First row will be the headers
-  const headerRow = steps;
-  tableArray.push(headerRow);
+  // Row 1: Step headers
+  tableArray.push(steps);
 
-  // Second row will be the placeholder values (all "-")
-  const defaultRow = Array(steps.length).fill("-");
-  tableArray.push(defaultRow);
+  // Row 2: Suggested times based on avgSeconds
+  if (avgSeconds && splitsData[method] && splitsData[method][puzzle]) {
+    const proportions = splitsData[method][puzzle];
+
+    // Build the suggested row step by step
+    const suggestedRow = steps.map(step => {
+      // Find this step's proportion
+      const proportion = proportions[step];
+
+      // If we have a valid proportion, calculate the time
+      if (proportion) {
+        const timeForStep = proportion * avgSeconds;
+        return timeForStep.toFixed(2); 
+      }
+
+      // Otherwise just return a placeholder
+      return "-";
+    });
+
+    tableArray.push(suggestedRow);
+  }
 
   return tableArray;
 }
@@ -71,38 +91,35 @@ function updateTable() {
   const puzzle = puzzleSelect.value;
   const method = methodSelect.value;
 
-  // 2. Build the table data (first row = headers, rest = body rows)
-  const tableArray = buildTableArray(puzzle, method);
+  const avgSeconds = parseFloat(avgInput.value);
+
+  // 2. Build the table data
+  const tableArray = buildTableArray(puzzle, method, avgSeconds);
 
   // 3. Clear any old content
   tableHead.innerHTML = "";
   tableBody.innerHTML = "";
 
   const headerRow = document.createElement("tr");
-  const headerCells = tableArray[0];  // first row: step names
+  const headerCells = tableArray[0];
 
   for (const stepName of headerCells) {
     const th = document.createElement("th");
-    th.textContent = stepName;  // e.g. "F2C", "L4C", ...
+    th.textContent = stepName;
     headerRow.appendChild(th);
   }
 
   tableHead.appendChild(headerRow);
 
-  // Every row after index 0 belongs in <tbody>
   const bodyRows = tableArray.slice(1);
 
   for (const row of bodyRows) {
     const tr = document.createElement("tr");
-
-    // Go cell by cell in this row
     for (const value of row) {
       const td = document.createElement("td");
-      td.textContent = value;  // e.g. "-", "0.121", etc.
+      td.textContent = value;
       tr.appendChild(td);
     }
-
-    // Add the finished row into <tbody>
     tableBody.appendChild(tr);
   }
 }
@@ -110,6 +127,7 @@ function updateTable() {
 // Run once on load
 updateTable();
 
-// Update when selection changes
+// Update when selection OR avg input changes
 puzzleSelect.addEventListener("change", updateTable);
 methodSelect.addEventListener("change", updateTable);
+avgInput.addEventListener("input", updateTable);
