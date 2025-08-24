@@ -1,94 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Big Cubes Tracker</title>
-    <link rel="stylesheet" href="splitsstyle.css">
-    <script src="splits.js" defer></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Big Cubes Tracker</title>
+  <link rel="stylesheet" href="splitsstyle.css">
+  <script src="splits.js" defer></script>
 </head>
 <body>
-    <h1> Big Cube Split Tracker </h1>
-    <p> Use this table to track your splits for big cube solves! </p>
+  <h1>Big Cube Split Tracker</h1>
+  <p>Use this table to track your splits for big cube solves!</p>
 
-    <!-- Label is basically the caption for a form control (i.e. those input, option, button, radio buttons, etc) -->
-    <label>
-        Select Puzzle:
-        <select id="puzzle-select" onchange="updateTableHeaders()">
-            <option value="4x4">4x4</option>
-            <option value="5x5">5x5</option>
-            <option value="6x6">6x6</option>
-            <option value="7x7">7x7</option>
-        </select>
-    </label>
-    <br><br>
+  <label>
+    Select Puzzle:
+    <select id="puzzle-select">
+      <option value="4x4">4x4</option>
+      <option value="5x5">5x5</option>
+      <option value="6x6">6x6</option>
+      <option value="7x7">7x7</option>
+    </select>
+  </label>
+  <br><br>
 
-    <label>
-        Select Method:
-        <select id="method-select" onchange="updateTableHeaders()">
-            <option value="Yau">Yau</option>
-            <option value="Redux">Reduction</option>
-            <option value="Hoya">Hoya</option>
-        </select>
-    </label>
-    <br><br>
+  <label>
+    Select Method:
+    <select id="method-select">
+      <option value="Yau">Yau</option>
+      <option value="Redux">Reduction</option>
+      <option value="Hoya">Hoya</option>
+    </select>
+  </label>
+  <br><br>
 
-    <label>
-        Global Average?
-        <input type="number" id="global-average" placeholder="Enter Global Average (e.g., 45.67)">
-    </label>
-    <br><br>
+  <label>
+    Global Average?
+    <input type="number" id="global-average" placeholder="Enter Global Average (e.g., 45.67)">
+  </label>
+  <br><br>
 
-    <div id="l9e-toggle-button" class="hidden">
-      <input type="checkbox" id="toggle-l9e" onclick="toggleL9E()"> Separate L9E Split
-    </div>
+  <div id="l9e-toggle-button" class="hidden">
+    <input type="checkbox" id="toggle-l9e"> Separate L9E Split
+  </div>
 
-    <div id="f4c-toggle-button" class="hidden">
-      <input type="checkbox" id="toggle-f4c" onclick="toggleF4C()"> Separate F4C Split
-    </div>
-    <br>
+  <div id="f4c-toggle-button" class="hidden">
+    <input type="checkbox" id="toggle-f4c"> Separate F4C Split
+  </div>
+  <br>
 
-     <h3>Here’s what your splits should be:</h3>
-    <table border="1" cellpadding="6">
-      <thead>
-        <tr>
-          <th id="first-header">First 2 Centers</th>
-          <th id="hoya-header-1" class="hoya-header hidden">First 4 Centers</th>
-          <th id="hoya-header-2" class="hoya-header hidden">Middle 2 Centers</th>
-          <th id="yau-header-1" class="yau-header hidden">First 3 Cross Edges</th>
-          <th id="hoya-header-3" class="hoya-header hidden">First 4 Edges</th>
-          <th id="second-header">Last 4 Centers</th>
-          <th id ="hoya-header-4" class="hoya-header hidden">Last 2 Edges</th>
-          <th id="yau-header-2" class="yau-header hidden">Last 9 Edges</th>
-          <th id="yau-header-3" class="yau-header hidden">Last Cross Edge</th>
-          <th id="yau-header-4" class="yau-header hidden">Last 8 Edges</th>
-          <th id="yau-header-5" class="yau-header hidden">Middle 4 Edges</th>
-          <th id="third-header">First 8 Edges</th>
-          <th id="fourth-header">Last 4 Edges</th>
-          <th id="fifth-header">3x3</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <td id="first-split">-</td>
-          <td id ="hoya-split-1" class="hoya-split-input hidden">-</td>
-          <td id ="hoya-split-2" class="hoya-split-input hidden">-</td>
-          <td id="yau-split-1" class="yau-split-input hidden">-</td>  
-          <td id ="hoya-split-3" class="hoya-split-input hidden">-</td>
-          <td id="second-split">-</td>
-          <td id ="hoya-split-4" class="hoya-split-input hidden">-</td>
-          <td id="yau-split-2" class="yau-split-input hidden">-</td>
-          <td id="yau-split-3" class="yau-split-input hidden">-</td>
-          <td id="yau-split-4" class="yau-split-input hidden">-</td>
-          <td id="yau-split-5" class="yau-split-input hidden">-</td>
-          <td id="third-split">-</td>
-          <td id="fourth-split">-</td>
-          <td id="fifth-split">-</td>
-        </tr>
-      </tbody>
-    </table>
-
+  <h3>Here’s what your splits should be:</h3>
+  <table id="splits-table" border="1" cellpadding="6">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
 </body>
 </html>
