@@ -1,4 +1,3 @@
-// These are the steps for each method with the puzzle type
 const splitsSteps = {
   "4x4": {
     "Yau":   ["F2C", "F3E", "L4C", "LCE", "L8E", "3x3"],
@@ -22,10 +21,9 @@ const splitsSteps = {
   }
 };
 
-// These are the average proportions for each step in each method
 const splitsData = {
   "Yau": {
-    "5x5": { "F2C": 0.1575, "F3E": 0.146, "L4C": 0.188, "L9E": 0.3475, "3x3": 0.1605 },
+    "5x5": { "F2C": 0.1486, "F3E": 0.1448, "L4C": 0.1962, "L9E": 0.3509, "LCE": 0.0606, "L8E": 0.2902, "3x3": 0.1596 },
     "6x6": { "F2C": 0.2055, "F3E": 0.1083, "L4C": 0.2602, "L9E": 0.2905, "3x3": 0.1354 },
     "7x7": { "F2C": 0.2335, "F3E": 0.1095, "L4C": 0.2867, "L9E": 0.2936, "3x3": 0.0768 }
   },
@@ -43,91 +41,202 @@ const splitsData = {
 
 const puzzleSelect = document.getElementById("puzzle-select");
 const methodSelect = document.getElementById("method-select");
+const avgInput = document.getElementById("global-average");
 const tableHead = document.querySelector("#splits-table thead");
 const tableBody = document.querySelector("#splits-table tbody");
 
-// This is an input for global average time in seconds
-const avgInput = document.getElementById("global-average");
+const l9eToggleDiv = document.getElementById("l9e-toggle-button");
+const l9eToggle = document.getElementById("toggle-l9e");
+const f4cToggleDiv = document.getElementById("f4c-toggle-button");
+const f4cToggle = document.getElementById("toggle-f4c");
 
-// Create an array that represents what I want to show in the table
+let customSplits = {}; // e.g. { "L4C": 12.34 }
+
+function getStepsWithToggles(puzzle, method) {
+
+  // .slice() returns selected elements in a new array (in case I want to add more splits)
+  let steps = splitsSteps[puzzle][method].slice();
+
+  // For Yau on 5x5/6x6/7x7, toggle between L9E and (LCE, L8E)
+  if (method === "Yau" && ["5x5", "6x6", "7x7"].includes(puzzle)) {
+    l9eToggleDiv.classList.remove("hidden");
+    if (l9eToggle.checked) {
+      // Show LCE and L8E, hide L9E
+      steps = steps.filter(step => step !== "L9E");
+    } else {
+      // Show L9E, hide LCE and L8E
+      steps = steps.filter(step => step !== "LCE" && step !== "L8E");
+    }
+  } else {
+    l9eToggleDiv.classList.add("hidden");
+  }
+
+  // For Hoya on 5x5/6x6/7x7, toggle between F4C and (F2C, M2C) 
+  if (method === "Hoya" && ["5x5", "6x6", "7x7"].includes(puzzle)) {
+    f4cToggleDiv.classList.remove("hidden");
+    if (f4cToggle.checked) {
+      // Show F2C and M2C, hide F4C
+      steps = steps.filter(step => step !== "F4C");
+    } else {
+      // Show F4C, hide F2C and M2C
+      steps = steps.filter(step => step !== "F2C" && step !== "M2C");
+    }
+  } else {
+    f4cToggleDiv.classList.add("hidden");
+  }
+
+  return steps;
+}
+
 function buildTableArray(puzzle, method, avgSeconds) {
-  // 1. Get the step names for puzzle+method
-  const steps = splitsSteps[puzzle][method];
+  // Get the steps we need to show (taking into account the toggle)
+  const steps = getStepsWithToggles(puzzle, method);
 
-  // 2. Start building the table rows
+  // Start building the table (first row will always be the steps themselves)
   const tableArray = [];
-
-  // Row 1: Step headers
   tableArray.push(steps);
 
-  // Row 2: Suggested times based on avgSeconds
+  // Only continue if we have an average solve time AND data for this method + puzzle
   if (avgSeconds && splitsData[method] && splitsData[method][puzzle]) {
     const proportions = splitsData[method][puzzle];
 
-    // Build the suggested row step by step
-    const suggestedRow = steps.map(step => {
-      // Find this step's proportion
-      const proportion = proportions[step];
+    // Figure out how much time the user has already "reserved" with custom values,
+    // and how much time is left for the steps that use proportions.
+    let totalCustom = 0;   // total of all user-entered times
+    let totalProp = 0;     // total weight of proportion-based steps
+    let propSteps = [];    // list of steps that will use proportions
 
-      // If we have a valid proportion, calculate the time
-      if (proportion) {
-        const timeForStep = proportion * avgSeconds;
-        return timeForStep.toFixed(2); 
+    steps.forEach(step => {
+      if (customSplits[step] !== undefined && customSplits[step] !== "") {
+        // If the user typed a time, add it to the "custom total"
+        totalCustom += parseFloat(customSplits[step]);
+      } else if (proportions[step]) {
+        // Otherwise, this step will share the leftover time proportionally
+        totalProp += proportions[step];
+        propSteps.push(step);
       }
+    });
 
-      // Otherwise just return a placeholder
+    // Now build the "suggested times" row for the table
+    const suggestedRow = steps.map(step => {
+      if (customSplits[step] !== undefined && customSplits[step] !== "") {
+        // Use the exact time the user typed in
+        return customSplits[step];
+      }
+      const prop = proportions[step];
+      if (prop && totalProp > 0) {
+        // Give this step a share of the leftover time based on its proportion
+        return (((avgSeconds - totalCustom) * prop) / totalProp).toFixed(2);
+      }
+      // If we don’t know what to do, just put a dash
       return "-";
     });
 
+    // Add that row under the steps
     tableArray.push(suggestedRow);
   }
 
+  // Return the full table
   return tableArray;
 }
 
-
 function updateTable() {
-  // 1. Get the selected puzzle and method
   const puzzle = puzzleSelect.value;
   const method = methodSelect.value;
-
   const avgSeconds = parseFloat(avgInput.value);
 
-  // 2. Build the table data
-  const tableArray = buildTableArray(puzzle, method, avgSeconds);
+  const steps = getStepsWithToggles(puzzle, method);
+  const proportions = splitsData[method]?.[puzzle] || {};
 
-  // 3. Clear any old content
+  // This will calculate custom and/or proportional splits
+  let totalCustom = 0;
+  let totalProp = 0;
+  let propSteps = [];
+  steps.forEach(step => {
+    if (customSplits[step] !== undefined && customSplits[step] !== "") {
+      totalCustom += parseFloat(customSplits[step]);
+    } else if (proportions[step]) {
+      totalProp += proportions[step];
+      propSteps.push(step);
+    }
+  });
+
+  // This will compute the split values for display
+  const splitValues = steps.map(step => {
+    if (customSplits[step] !== undefined && customSplits[step] !== "") {
+      return customSplits[step];
+    }
+    const prop = proportions[step];
+    if (prop && totalProp > 0 && avgSeconds) {
+      return (((avgSeconds - totalCustom) * prop) / totalProp).toFixed(2);
+    }
+    return "";
+  });
+
+  // This will render the table
   tableHead.innerHTML = "";
   tableBody.innerHTML = "";
 
   const headerRow = document.createElement("tr");
-  const headerCells = tableArray[0];
-
-  for (const stepName of headerCells) {
+  steps.forEach(stepName => {
     const th = document.createElement("th");
     th.textContent = stepName;
     headerRow.appendChild(th);
-  }
-
+  });
   tableHead.appendChild(headerRow);
 
-  const bodyRows = tableArray.slice(1);
+  const inputRow = document.createElement("tr");
+  steps.forEach((stepName, idx) => {
+    const td = document.createElement("td");
+    td.textContent = splitValues[idx];
 
-  for (const row of bodyRows) {
-    const tr = document.createElement("tr");
-    for (const value of row) {
-      const td = document.createElement("td");
-      td.textContent = value;
-      tr.appendChild(td);
-    }
-    tableBody.appendChild(tr);
-  }
+    td.style.cursor = "pointer";
+    td.addEventListener("click", function handleClick() {
+      // The user can replace the cell with input field to type a custom value
+      const input = document.createElement("input");
+      input.type = "number";
+      input.step = "0.01";
+      input.min = "0";
+      input.value = splitValues[idx];
+      input.style.width = "60px";
+      td.textContent = "";
+      td.appendChild(input);
+      input.focus();
+
+      function save() {
+        customSplits[stepName] = input.value;
+        updateTable();
+      }
+      input.addEventListener("blur", save);
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          input.blur();
+        }
+      });
+
+      td.removeEventListener("click", handleClick);
+    });
+
+    inputRow.appendChild(td);
+  });
+  tableBody.appendChild(inputRow);
 }
 
-// Run once on load
+// Small helper: clear splits + refresh table
+function resetSplitsAndUpdate() {
+  customSplits = {};
+  updateTable();
+}
+
+puzzleSelect.addEventListener("change", resetSplitsAndUpdate);
+methodSelect.addEventListener("change", resetSplitsAndUpdate);
+
+// For toggles, just update the table (do NOT clear customSplits)
+l9eToggle.addEventListener("change", updateTable);
+f4cToggle.addEventListener("change", updateTable);
+
+avgInput.addEventListener("input", updateTable);
+document.getElementById("reset-splits-btn").addEventListener("click", resetSplitsAndUpdate);
+
 updateTable();
 
-// Update when selection OR avg input changes
-puzzleSelect.addEventListener("change", updateTable);
-methodSelect.addEventListener("change", updateTable);
-avgInput.addEventListener("input", updateTable);
