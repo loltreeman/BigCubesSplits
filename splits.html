@@ -9,7 +9,7 @@
 </head>
 <body>
   <h1>Big Cube Splits</h1>
-  <p>Use this table to determine your ideal splits for big cube solves!</p>
+  <p>Use this website to determine your ideal splits for big cube solves!</p>
 
   <div class="controls">
     <div class="main-controls">
@@ -35,6 +35,9 @@
         <input type="number" id="global-average" placeholder="in seconds (120 for 2 minutes)">
       </label>
     </div>
+
+    <button id="dark-mode-toggle" type="button">🌙</button>
+
     <div class="optional-controls">
       <div id="l9e-toggle-button" class="hidden">
         <input type="checkbox" id="toggle-l9e"> Separate L9E Split (Yau)
@@ -66,6 +69,13 @@
     <tbody></tbody>
   </table>
 
+  <h3>Solves from Top Solvers who use this Method</h3>
+  <table id="top-solvers-table">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+
+
   <h3>How is this information useful?</h3>
   <p id="how-to-use-info">
     The estimated splits are based on data from solves of top Big Cube solvers, and it is concluded that any variation less than <b>20%</b> is not very significant.
@@ -84,6 +94,13 @@
     <a href="https://github.com/Justiniscoding/Floppy-Cube-Solver" target="_blank" rel="noopener">Justiniscoding</a>
     for helping me with the initial idea of toggling optional splits!
   </p>
+
+  <video width="320" height="240" autoplay controls loop muted>
+    <source src="tachyonedit.mp4" type="video/mp4">
+    <source src="tachyonedit.mp4" type="video/ogg">
+    <source src="tachyonedit.mp4" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
 
   <footer class="site-footer">
   <div class="footer-row">

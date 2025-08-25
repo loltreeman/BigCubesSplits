@@ -23,6 +23,11 @@ p {
     font-size: 1em;
 }
 
+video {
+    display: block;
+    margin: 0 auto;
+}
+
 .controls {
     display: flex;
     flex-wrap: wrap;
@@ -83,7 +88,6 @@ select:focus, input[type="number"]:focus {
     transform: translateY(-2px);
 }
 
-/* Table Styles */
 #custom-splits-table,
 #estimated-splits-table,
 #variation-table {
@@ -151,7 +155,6 @@ select:focus, input[type="number"]:focus {
     box-shadow: 0 0 0 2px #bcb6ff;
 }
 
-/* Highlight high variation in variation table */
 #variation-table td {
     font-weight: 500;
 }
@@ -161,7 +164,6 @@ select:focus, input[type="number"]:focus {
     font-weight: 700;
 }
 
-/* Section Headings */
 h3 {
     text-align: center;
     color: #6c63ff;
@@ -171,7 +173,6 @@ h3 {
     letter-spacing: 0.5px;
 }
 
-/* How to use info and tips */
 #how-to-use-info {
     max-width: 600px;
     margin: 0 auto 18px auto;
@@ -312,6 +313,181 @@ h3 {
     }
 }
 
+#top-solvers-table {
+    margin: 32px auto 0 auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(108,99,255,0.09);
+    overflow: hidden;
+    min-width: 340px;
+    max-width: 95vw;
+}
+#top-solvers-table th, #top-solvers-table td {
+    padding: 14px 18px;
+    text-align: center;
+    font-size: 1.08em;
+}
+#top-solvers-table th {
+    background: #edeaff;
+    color: #6c63ff;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e7ff;
+}
+#top-solvers-table td {
+    background: #f7f6fd;
+    color: #444;
+    border-bottom: 1px solid #ececec;
+    border-radius: 8px;
+}
+
 .hidden {
     display: none;
+}
+
+
+#dark-mode-toggle {
+  position: fixed;
+  top: 20px;         
+  right: 20px;       
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #eee;
+  color: #333;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+#dark-mode-toggle:hover {
+  background: #ddd;
+}
+
+body.dark-mode #dark-mode-toggle {
+  background: #2a244a;
+  color: #cfc7ff;
+}
+
+body.dark-mode #dark-mode-toggle:hover {
+  background: #3b2f75;
+  color: #fff;
+}
+
+body.dark-mode {
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  color: #eee;
+}
+
+body.dark-mode h1,
+body.dark-mode h3 {
+  color: #a99cff;
+}
+
+#how-to-use-info,
+#specific-tips,
+p {
+  border-radius: 8px;
+  padding: 0.5em;
+}
+
+body.dark-mode p,
+body.dark-mode #how-to-use-info,
+body.dark-mode #specific-tips {
+  color: #ddd;
+  background: #1f1f2b;
+  box-shadow: 0 1px 4px rgba(108,99,255,0.2);
+}
+
+label,
+#l9e-toggle-button,
+#f4c-toggle-button,
+.main-controls,
+.optional-controls {
+  border-radius: 8px;
+  padding: 0.5em; 
+}
+
+body.dark-mode label,
+body.dark-mode #l9e-toggle-button,
+body.dark-mode #f4c-toggle-button,
+body.dark-mode .main-controls,
+body.dark-mode .optional-controls {
+  background: #1e1e2e;
+  color: #ddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* Inputs */
+body.dark-mode select,
+body.dark-mode input[type="number"] {
+  background: #2a2a3d;
+  color: #eee;
+  border: 1px solid #555;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+body.dark-mode table {
+  background: #1e1e2e;
+  color: #eee;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+body.dark-mode th {
+  background: #2a244a;
+  color: #cfc7ff;
+  border-bottom: 2px solid #3a3260;
+}
+
+body.dark-mode td {
+  background: #29293d;
+  color: #eee;
+  border-bottom: 1px solid #444;
+}
+
+#reset-splits-btn {
+  border-radius: 8px; 
+  padding: 0.4em 0.8em; 
+}
+
+body.dark-mode #reset-splits-btn {
+  background: #2a244a;
+  color: #cfc7ff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+body.dark-mode #reset-splits-btn:hover {
+  background: #3b2f75;
+  color: #fff;
+}
+
+/* Footer */
+body.dark-mode .site-footer {
+  background: #111;
+  color: #aaa;
+}
+
+body.dark-mode .footer-link {
+  color: #cfc7ff;
+}
+
+body.dark-mode .footer-link:hover {
+  color: #fff;
+}
+
+body.dark-mode a {
+  color: #9fa9ff;
+  text-decoration: none;
+}
+
+body.dark-mode a:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
