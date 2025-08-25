@@ -46,6 +46,13 @@ const avgInput = document.getElementById("global-average");
 const tableHead = document.querySelector("#splits-table thead");
 const tableBody = document.querySelector("#splits-table tbody");
 
+const customSplitsTableHead = document.querySelector("#custom-splits-table thead");
+const customSplitsTableBody = document.querySelector("#custom-splits-table tbody");
+const estimatedSplitsTableHead = document.querySelector("#estimated-splits-table thead");
+const estimatedSplitsTableBody = document.querySelector("#estimated-splits-table tbody");
+const variationTableHead = document.querySelector("#variation-table thead");
+const variationTableBody = document.querySelector("#variation-table tbody");
+
 const l9eToggleDiv = document.getElementById("l9e-toggle-button");
 const l9eToggle = document.getElementById("toggle-l9e");
 const f4cToggleDiv = document.getElementById("f4c-toggle-button");
@@ -223,21 +230,187 @@ function updateTable() {
   tableBody.appendChild(inputRow);
 }
 
-// Small helper: clear splits + refresh table
 function resetSplitsAndUpdate() {
   customSplits = {};
-  updateTable();
+  updateTables();
 }
 
 puzzleSelect.addEventListener("change", resetSplitsAndUpdate);
 methodSelect.addEventListener("change", resetSplitsAndUpdate);
-
-// For toggles, just update the table (do NOT clear customSplits)
-l9eToggle.addEventListener("change", updateTable);
-f4cToggle.addEventListener("change", updateTable);
-
-avgInput.addEventListener("input", updateTable);
+l9eToggle.addEventListener("change", updateTables);
+f4cToggle.addEventListener("change", updateTables);
+avgInput.addEventListener("input", updateTables);
 document.getElementById("reset-splits-btn").addEventListener("click", resetSplitsAndUpdate);
 
-updateTable();
+updateTables();
+
+function updateTables() {
+  const puzzle = puzzleSelect.value;
+  const method = methodSelect.value;
+  const avgSeconds = parseFloat(avgInput.value);
+
+  const steps = getStepsWithToggles(puzzle, method);
+  const proportions = splitsData[method]?.[puzzle] || {};
+
+  customSplitsTableHead.innerHTML = "";
+  customSplitsTableBody.innerHTML = "";
+
+  const customHeaderRow = document.createElement("tr");
+  steps.forEach(step => {
+    const th = document.createElement("th");
+    th.textContent = step;
+    customHeaderRow.appendChild(th);
+  });
+  customHeaderRow.appendChild(document.createElement("th")).textContent = "Average";
+  customSplitsTableHead.appendChild(customHeaderRow);
+
+  const customInputRow = document.createElement("tr");
+  let userSum = 0;
+  steps.forEach((step, idx) => {
+    const td = document.createElement("td");
+    td.style.background = "#fffbe6";
+    td.style.cursor = "pointer";
+    td.textContent = customSplits[step] !== undefined ? customSplits[step] : "";
+
+    td.addEventListener("click", function handleClick() {
+      const input = document.createElement("input");
+      input.type = "number";
+      input.step = "0.01";
+      input.min = "0";
+      input.value = customSplits[step] !== undefined ? customSplits[step] : "";
+      input.style.width = "60px";
+      td.textContent = "";
+      td.appendChild(input);
+      input.focus();
+
+      function save() {
+        customSplits[step] = input.value;
+        updateTables();
+      }
+      input.addEventListener("blur", save);
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") input.blur();
+      });
+
+      td.removeEventListener("click", handleClick);
+    });
+
+    if (customSplits[step] && !isNaN(parseFloat(customSplits[step]))) {
+      userSum += parseFloat(customSplits[step]);
+    }
+    customInputRow.appendChild(td);
+  });
+
+  const avgTd = document.createElement("td");
+  avgTd.textContent = userSum ? userSum.toFixed(2) : "";
+  avgTd.style.fontWeight = "bold";
+  customInputRow.appendChild(avgTd);
+
+  customSplitsTableBody.appendChild(customInputRow);
+
+  estimatedSplitsTableHead.innerHTML = "";
+  estimatedSplitsTableBody.innerHTML = "";
+
+  const estHeaderRow = document.createElement("tr");
+  steps.forEach(step => {
+    const th = document.createElement("th");
+    th.textContent = step;
+    estHeaderRow.appendChild(th);
+  });
+  estHeaderRow.appendChild(document.createElement("th")).textContent = "Average";
+  estimatedSplitsTableHead.appendChild(estHeaderRow);
+
+  const estRow = document.createElement("tr");
+  let estSum = 0;
+  steps.forEach(step => {
+    let val = "";
+    if (proportions[step] && avgSeconds) {
+      val = (proportions[step] * avgSeconds).toFixed(2);
+      estSum += parseFloat(val);
+    }
+    const td = document.createElement("td");
+    td.textContent = val;
+    estRow.appendChild(td);
+  });
+  const estAvgTd = document.createElement("td");
+  estAvgTd.textContent = estSum ? estSum.toFixed(2) : "";
+  estAvgTd.style.fontWeight = "bold";
+  estRow.appendChild(estAvgTd);
+
+  estimatedSplitsTableBody.appendChild(estRow);
+
+  variationTableHead.innerHTML = "";
+  variationTableBody.innerHTML = "";
+
+  const varHeaderRow = document.createElement("tr");
+  steps.forEach(step => {
+    const th = document.createElement("th");
+    th.textContent = step;
+    varHeaderRow.appendChild(th);
+  });
+  variationTableHead.appendChild(varHeaderRow);
+
+  const varRow = document.createElement("tr");
+  steps.forEach(step => {
+    let percent = "";
+    let percentValue = null;
+    if (
+      proportions[step] &&
+      avgSeconds &&
+      customSplits[step] !== undefined &&
+      customSplits[step] !== ""
+    ) {
+      const ideal = proportions[step] * avgSeconds;
+      const user = parseFloat(customSplits[step]);
+      percentValue = ((user - ideal) / ideal) * 100;
+      percent = percentValue.toFixed(1) + "%";
+    }
+    const td = document.createElement("td");
+    td.textContent = percent;
+
+    if (percentValue !== null) {
+      if (percentValue > 20) {
+        td.style.color = "#e57373"; // red for >20%
+        td.style.fontWeight = "bold";
+      } else if (percentValue < -20) {
+        td.style.color = "#388e3c"; // green for < -20%
+        td.style.fontWeight = "bold";
+      } else {
+        td.style.color = ""; // normal
+        td.style.fontWeight = "";
+      }
+    }
+    varRow.appendChild(td);
+  });
+  variationTableBody.appendChild(varRow);
+
+  const tipsList = document.getElementById("specific-tips");
+  tipsList.innerHTML = ""; 
+
+  steps.forEach(step => {
+    if (
+      proportions[step] &&
+      avgSeconds &&
+      customSplits[step] !== undefined &&
+      customSplits[step] !== ""
+    ) {
+      const ideal = proportions[step] * avgSeconds;
+      const user = parseFloat(customSplits[step]);
+      const percent = ((user - ideal) / ideal) * 100;
+      if (percent > 20) {
+        const li = document.createElement("li");
+        li.textContent = `Your '${step}' split is ${percent.toFixed(1)}% higher than the suggested split – this stage is something to focus on in your practice.`;
+        tipsList.appendChild(li);
+      }
+    }
+  });
+
+  if (!tipsList.hasChildNodes()) {
+    const li = document.createElement("li");
+    li.textContent = "No splits are more than 20% above the suggested splits. Keep it up!";
+    tipsList.appendChild(li);
+  }
+}
+
+updateTables();
 

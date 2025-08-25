@@ -12,46 +12,78 @@
   <p>Use this table to determine your ideal splits for big cube solves!</p>
 
   <div class="controls">
-    <label>
-      Select Puzzle:
-      <select id="puzzle-select">
-        <option value="4x4">4x4</option>
-        <option value="5x5">5x5</option>
-        <option value="6x6">6x6</option>
-        <option value="7x7">7x7</option>
-      </select>
-    </label>
-
-    <label>
-      Select Method:
-      <select id="method-select">
-        <option value="Yau">Yau</option>
-        <option value="Redux">Reduction</option>
-        <option value="Hoya">Hoya</option>
-      </select>
-    </label>
-
-    <label>
-      Global Average?
-      <input type="number" id="global-average" placeholder="Enter in seconds (e.g. 120 for 2 minutes)">
-    </label>
-
-    <div id="l9e-toggle-button" class="hidden">
-      <input type="checkbox" id="toggle-l9e"> Separate L9E Split
+    <div class="main-controls">
+      <label>
+        Puzzle:
+        <select id="puzzle-select">
+          <option value="4x4">4x4</option>
+          <option value="5x5">5x5</option>
+          <option value="6x6">6x6</option>
+          <option value="7x7">7x7</option>
+        </select>
+      </label>
+      <label>
+        Method:
+        <select id="method-select">
+          <option value="Yau">Yau</option>
+          <option value="Redux">Reduction</option>
+          <option value="Hoya">Hoya</option>
+        </select>
+      </label>
+      <label>
+        Ideal Average:
+        <input type="number" id="global-average" placeholder="in seconds (120 for 2 minutes)">
+      </label>
     </div>
-
-    <div id="f4c-toggle-button" class="hidden">
-      <input type="checkbox" id="toggle-f4c"> Separate F4C Split
+    <div class="optional-controls">
+      <div id="l9e-toggle-button" class="hidden">
+        <input type="checkbox" id="toggle-l9e"> Separate L9E Split (Yau)
+      </div>
+      <div id="f4c-toggle-button" class="hidden">
+        <input type="checkbox" id="toggle-f4c"> Separate F4C Split (Hoya)
+      </div>
     </div>
-
-    <button id="reset-splits-btn" type="button">Reset Splits</button>
   </div>
 
-  <h3>Here’s what your splits should be:</h3>
-  <table id="splits-table">
+
+  <button id="reset-splits-btn" type="button">Reset Splits</button>
+  <h3>Enter your split times in the cells highlighted yellow</h3>
+  <table id="custom-splits-table">
     <thead></thead>
     <tbody></tbody>
   </table>
+
+  <h3>Here's what your estimated splits should be for your inputted average:</h3>
+  <h4 style="text-align: center">Disclaimer: may have +- < 0.05 discrepancy </h4>
+  <table id="estimated-splits-table">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+
+  <h3>Percentage Variation</h3>
+  <table id="variation-table">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+
+  <h3>How is this information useful?</h3>
+  <p id="how-to-use-info">
+    The estimated splits are based on data from solves of top Big Cube solvers, and it is concluded that any variation less than <b>20%</b> is not very significant.
+    If you find there is a stage in your solve which is more than <b>20%</b> higher than the suggested splits, this may be an area where you would want to work on.
+  </p>
+
+  <h3>Specific Tips For You</h3>
+  <ul id="specific-tips"></ul>
+
+
+  <h3>Special Thanks to </h3>
+  <p id="how-to-use-info">
+    <a href="https://github.com/crystalcuber/crystalcube" target="_blank" rel="noopener">crystalcube</a> 
+    for being such a great help into making this possible!
+    <br>
+    <a href="https://github.com/Justiniscoding/Floppy-Cube-Solver" target="_blank" rel="noopener">Justiniscoding</a>
+    for helping me with the initial idea of toggling optional splits!
+  </p>
 
   <footer class="site-footer">
   <div class="footer-row">
@@ -71,6 +103,18 @@
     </a>
     <span class="footer-separator">|</span>
     <span>Last updated: August 2025</span>
+    <span class="footer-separator">|</span>
+    <span>Based on
+      <a href="https://www.cubeskills.com/blog/cfop-solve-splits-tool" target="_blank" rel="noopener" class="footer-link">
+        Feliks Zemdegs' CFOP Splits Tool
+      </a>
+    </span>
+    <span class="footer-separator">|</span>
+    <span>Data from 
+      <a href="https://docs.google.com/spreadsheets/d/12zUviGq8HZnRG3k6yFbEyD4WOlqOapPy/edit?gid=1077286993#gid=1077286993" target="_blank" rel="noopener" class="footer-link">
+        Tyler Hicks' Big Cube Splits Sheet & Christian Naguio's Big Cube Splits Data Analysis
+      </a>
+    </span>
   </div>
 </footer>
 </body>
