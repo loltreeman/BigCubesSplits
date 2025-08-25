@@ -104,7 +104,7 @@ input[type="checkbox"] {
     border-radius: 18px;
     box-shadow: 0 4px 24px rgba(108,99,255,0.09);
     overflow: hidden;
-    min-width: 340px;
+    min-width: 500px;
     max-width: 95vw;
 }
 
@@ -113,7 +113,7 @@ input[type="checkbox"] {
 #variation-table th, #variation-table td {
     padding: 14px 18px;
     text-align: center;
-    font-size: 1.08em;
+    font-size: 1.10em;
 }
 
 #custom-splits-table th,
@@ -290,13 +290,7 @@ h3 {
 }
 
 
-@media (max-width: 1024px) {
-  .page-layout {
-    grid-template-columns: minmax(150px, 200px) 1fr minmax(120px, 180px);
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 1168px) {
   .page-layout {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -335,6 +329,7 @@ h3 {
 .tables-section {
   text-align: center;
   max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tables-section table {
@@ -358,7 +353,6 @@ h3 {
   align-items: flex-start;
 }
 
-
 .main-controls input,
 .main-controls select,
 .optional-controls input,
@@ -371,40 +365,43 @@ h3 {
   font-size: 14px;
 }
 
-
 #top-solvers-table {
+    width: 100%;          
+    min-width: 600px;     
+    max-width: 1200px;   
     margin: 32px auto 0 auto;
     border-collapse: separate;
     border-spacing: 0;
     background: #fff;
     border-radius: 18px;
     box-shadow: 0 4px 24px rgba(108,99,255,0.09);
-    overflow: hidden;
-    min-width: 340px;
-    max-width: 95vw;
+    overflow: hidden;   
 }
-#top-solvers-table th, #top-solvers-table td {
-    padding: 14px 18px;
+
+#top-solvers-table th, 
+#top-solvers-table td {
+    padding: 12px 20px;   
     text-align: center;
-    font-size: 1.08em;
+    font-size: 1.1em;
 }
+
 #top-solvers-table th {
     background: #edeaff;
     color: #6c63ff;
     font-weight: 700;
     border-bottom: 2px solid #e0e7ff;
 }
+
 #top-solvers-table td {
     background: #f7f6fd;
     color: #444;
-    border-bottom: 1px solid #ececec;
+    border-bottom: 2px solid #ececec;
     border-radius: 8px;
 }
 
 .hidden {
     display: none;
 }
-
 
 #dark-mode-toggle {
   position: fixed;
@@ -526,7 +523,6 @@ body.dark-mode #reset-splits-btn:hover {
   color: #fff;
 }
 
-/* Footer */
 body.dark-mode .site-footer {
   background: #111;
   color: #aaa;
@@ -538,6 +534,10 @@ body.dark-mode .footer-link {
 
 body.dark-mode .footer-link:hover {
   color: #fff;
+}
+
+body.dark-mode .footer-icon {
+    filter: invert(100%); 
 }
 
 body.dark-mode a {
