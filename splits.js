@@ -196,8 +196,9 @@ const topSolversData = {
         recon: "https://example.com/recon1"
       },
     ]
-    // I will add "4x4", "6x6", "7x7" here in the same format
   },
+
+  // TO-DO: Actually gather data for this
   "Redux": {
     "5x5": [
       {
@@ -215,6 +216,8 @@ const topSolversData = {
       }
     ]
   },
+
+  // TO-DO: Actually gather data
   "Hoya": {
     "5x5": [
       {
@@ -259,10 +262,10 @@ darkModeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
 
   if (document.body.classList.contains("dark-mode")) {
-    darkModeToggle.textContent = "☀️";
+    darkModeToggle.textContent = "☀️"; 
     localStorage.setItem("theme", "dark");
   } else {
-    darkModeToggle.textContent = "🌙";
+    darkModeToggle.textContent = "🌙"; 
     localStorage.setItem("theme", "");
   }
 });
@@ -270,9 +273,12 @@ darkModeToggle.addEventListener("click", () => {
 window.addEventListener("load", () => {
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-mode");
-    darkModeToggle.textContent = "☀️ Light Mode";
+    darkModeToggle.textContent = "☀️"; 
+  } else {
+    darkModeToggle.textContent = "🌙";
   }
 });
+
 
 
 function getStepsWithToggles(puzzle, method) {
