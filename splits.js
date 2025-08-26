@@ -582,19 +582,152 @@ const topSolversData = {
 
   // TO-DO: Actually gather data
   "Hoya": {
-    "5x5": [
+    "4x4": [
+      {
+        solver: "Ray Bai",
+        time: "22.14",
+        splits: {
+          "F2C": "3.46",
+          "M2C": "3.63",
+          "F4C": "7.09",
+          "F4E": "4.13",
+          "L2C": "1.43",
+          "L8E": "3.86",
+          "3x3": "5.63"
+        },
+        youtube: "https://youtu.be/tIMZS4tZxCY",
+        recon: ""
+      },
+
+      {
+        solver: "Ray Bai",
+        time: "29.74",
+        splits: {
+          "F2C": "2.86",
+          "M2C": "3.43",
+          "F4C": "6.29",
+          "F4E": "3.93",
+          "L2C": "1.3",
+          "L8E": "5.43",
+          "3x3": "12.79"
+        },
+        youtube: "https://youtu.be/tIMZS4tZxCY&t=28",
+        recon: ""
+      },
+
+      {
+        solver: "Ray Bai",
+        time: "27.79",
+        splits: {
+          "F2C": "2.83",
+          "M2C": "2.9",
+          "F4C": "5.73",
+          "F4E": "5.16",
+          "L2C": "1.9",
+          "L8E": "5.7",
+          "3x3": "9.3"
+        },
+        youtube: "https://youtu.be/tIMZS4tZxCY&t=58",
+        recon: ""
+      },
+
+      {
+        solver: "Ray Bai",
+        time: "22.97",
+        splits: {
+          "F2C": "2.63",
+          "M2C": "4.43",
+          "F4C": "7.06",
+          "F4E": "3.73",
+          "L2C": "1.46",
+          "L8E": "4.63",
+          "3x3": "6.09"
+        },
+        youtube: "https://youtu.be/tIMZS4tZxCYt=90",
+        recon: ""
+      },
+
+      {
+        solver: "Ray Bai",
+        time: "21.97",
+        splits: {
+          "F2C": "3.1",
+          "M2C": "1.73",
+          "F4C": "4.83",
+          "F4E": "3.73",
+          "L2C": "1.9",
+          "L8E": "5.7",
+          "3x3": "5.81"
+        },
+        youtube: "https://youtu.be/tIMZS4tZxCY&t=114",
+        recon: ""
+      },
+
       {
         solver: "",
         time: "",
         splits: {
+          "F2C": "",
+          "M2C": "",
           "F4C": "",
           "F4E": "",
           "L2C": "",
           "L8E": "",
           "3x3": ""
         },
-        youtube: "https://www.youtube.com/watch?v=example4",
-        recon: "https://example.com/recon4"
+        youtube: "",
+        recon: ""
+      }
+    ],
+    "5x5": [
+      {
+        solver: "",
+        time: "",
+        splits: {
+          "F2C": "",
+          "M2C": "",
+          "F4C": "",
+          "F4E": "",
+          "L2C": "",
+          "L8E": "",
+          "3x3": ""
+        },
+        youtube: "",
+        recon: ""
+      }
+    ],
+    "6x6": [
+      {
+        solver: "",
+        time: "",
+        splits: {
+          "F2C": "",
+          "M2C": "",
+          "F4C": "",
+          "F4E": "",
+          "L2C": "",
+          "L8E": "",
+          "3x3": ""
+        },
+        youtube: "",
+        recon: ""
+      }
+    ],
+    "7x7": [
+      {
+        solver: "",
+        time: "",
+        splits: {
+          "F2C": "",
+          "M2C": "",
+          "F4C": "",
+          "F4E": "",
+          "L2C": "",
+          "L8E": "",
+          "3x3": ""
+        },
+        youtube: "",
+        recon: ""
       }
     ]
   }
