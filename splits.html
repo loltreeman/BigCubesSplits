@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Big Cubes Tracker</title>
+  <title>bigCubeSplits</title>
   <link rel="stylesheet" href="splitsstyle.css">
   <script src="splits.js" defer></script>
 </head>
@@ -39,6 +39,7 @@
       </label>
       <br>
       <button id="reset-splits-btn" type="button">Reset Splits</button>
+      <button id="what-if-btn" type="button">What-If?</button>
     </aside>
 
     <main class="tables-section">
@@ -94,12 +95,27 @@
     </main>
 
     <aside class="optional-controls">
-      <div id="l9e-toggle-button" class="hidden">
-        <input type="checkbox" id="toggle-l9e"> Separate L9E Split (Yau)
+      <div id="l9e-toggle-button" class="toggle-button">
+        <label for="toggle-l9e">
+          <input type="checkbox" id="toggle-l9e">
+          Separate L9E Split (Yau)
+        </label>
       </div>
-      <div id="f4c-toggle-button" class="hidden">
-        <input type="checkbox" id="toggle-f4c"> Separate F4C Split (Hoya)
+
+      <div id="f4c-toggle-button" class="toggle-button">
+        <label for="toggle-f4c">
+          <input type="checkbox" id="toggle-f4c">
+          Separate F4C Split (Hoya)
+        </label>
       </div>
+
+      <div id="edges-toggle-button" class="toggle-button">
+        <label for="toggle-edges">
+          <input type="checkbox" id="toggle-edges">
+          Combine Edges Split (Reduction)
+        </label>
+      </div>
+
     </aside>
   </div>
 

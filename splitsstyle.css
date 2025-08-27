@@ -7,11 +7,22 @@ body {
     padding: 0 20px 60px 20px;
 }
 
+/* These are just the text attributes */
 h1 {
     text-align: center;
     font-weight: 800;
     color: #6c63ff;
     font-size: clamp(2.5em, 5vw, 5em);
+}
+
+h3 {
+    text-align: center;
+    color: #6c63ff;
+    margin-top: 36px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-size: 1.5em;
 }
 
 p {
@@ -72,9 +83,9 @@ input[type="checkbox"] {
     
 }
 
-
+/* These are the buttons */
 #l9e-toggle-button,
-#f4c-toggle-button {
+#f4c-toggle-button, #edges-toggle-button {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -88,11 +99,12 @@ input[type="checkbox"] {
 }
 
 #l9e-toggle-button:hover,
-#f4c-toggle-button:hover {
+#f4c-toggle-button:hover, #edges-toggle-button:hover {
     background: #f1f3ff;
     transform: translateY(-2px);
 }
 
+/* These are the tables */
 #custom-splits-table,
 #estimated-splits-table,
 #variation-table {
@@ -169,16 +181,6 @@ input[type="checkbox"] {
     font-weight: 700;
 }
 
-h3 {
-    text-align: center;
-    color: #6c63ff;
-    margin-top: 36px;
-    margin-bottom: 10px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    font-size: 1.5em;
-}
-
 #how-to-use-info {
     max-width: 600px;
     margin: 0 auto 18px auto;
@@ -208,12 +210,12 @@ h3 {
     text-align: left;
 }
 
-#reset-splits-btn {
+#reset-splits-btn, #what-if-btn {
     background: #edeaff;
     color: #7c6cff;
     border: none;
-    border-radius: 16px;
-    padding: 8px 20px;
+    border-radius: 8px; 
+    padding: 0.4em 0.8em; 
     font-size: 1em;
     font-family: inherit;
     font-weight: 600;
@@ -224,7 +226,8 @@ h3 {
     transition: background 0.18s, color 0.18s, box-shadow 0.18s;
 }
 
-#reset-splits-btn:hover {
+
+#reset-splits-btn:hover, #what-if-btn:hover {
     background: #d6d0ff;
     color: #5a4fdc;
     box-shadow: 0 2px 8px rgba(124,108,255,0.13);
@@ -290,7 +293,7 @@ h3 {
 
 @media (max-width: 1168px) {
   .page-layout {
-    grid-template-columns: 1fr 1fr;  
+    grid-template-columns: 1fr;  
     grid-template-areas: 
       "main optional"
       "tables tables";
@@ -300,18 +303,6 @@ h3 {
   .optional-controls { grid-area: optional; }
   .tables-section { grid-area: tables; }
 }
-
-@media (max-width: 700px) {
-  .page-layout {
-    grid-template-columns: 1fr;
-    grid-template-areas: 
-      "main"
-      "optional"
-      "tables";
-  }
-}
-
-
 
 .tables-section {
   text-align: center;
@@ -327,7 +318,7 @@ h3 {
 .main-controls {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 2px 8px rgba(108,99,255,0.07);
@@ -359,7 +350,7 @@ h3 {
 }
 
 .optional-controls {
-  min-width: 180px;
+  min-width: 200px;
   align-items: flex-start;
 }
 
@@ -373,6 +364,40 @@ h3 {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
+}
+
+.toggle-button {
+  width: 30%;
+  min-width: 180px;
+  background: #fff;
+  padding: 10px 16px;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(108, 99, 255, 0.08);
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.toggle-button:hover {
+  background: #f1f3ff;
+  transform: translateY(-2px);
+}
+
+.toggle-button label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.toggle-button input[type="checkbox"] {
+  transform: scale(1.5);
+  margin-right: 10px;
 }
 
 #top-solvers-table {
@@ -469,18 +494,10 @@ body.dark-mode #specific-tips {
   box-shadow: 0 1px 4px rgba(108,99,255,0.2);
 }
 
-label,
-#l9e-toggle-button,
-#f4c-toggle-button,
-.main-controls,
-.optional-controls {
-  border-radius: 8px;
-  padding: 0.5em; 
-}
-
 body.dark-mode label,
 body.dark-mode #l9e-toggle-button,
 body.dark-mode #f4c-toggle-button,
+body.dark-mode #edges-toggle-button,
 body.dark-mode .main-controls,
 body.dark-mode .optional-controls {
   background: #1e1e2e;
@@ -517,18 +534,13 @@ body.dark-mode td {
   border-bottom: 1px solid #444;
 }
 
-#reset-splits-btn {
-  border-radius: 8px; 
-  padding: 0.4em 0.8em; 
-}
-
-body.dark-mode #reset-splits-btn {
+body.dark-mode #reset-splits-btn, #what-if-btn {
   background: #2a244a;
   color: #cfc7ff;
   box-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
-body.dark-mode #reset-splits-btn:hover {
+body.dark-mode #reset-splits-btn:hover, #what-if-btn:hover {
   background: #3b2f75;
   color: #fff;
 }

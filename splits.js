@@ -2,7 +2,7 @@ const splitsSteps = {
   "4x4": {
     "Yau":   ["F2C", "F3E", "L4C", "LCE", "L8E", "3x3"],
     "Redux": ["F2C", "L4C", "F8E", "L4E", "3x3"],
-    "Hoya":  ["F4C", "F4E", "L2C", "L8E", "3x3"]
+    "Hoya":  ["F4C", "F2C", "M2C", "F4E", "L2C", "L8E", "3x3"]
   },
   "5x5": {
     "Yau":   ["F2C", "F3E", "L4C", "L9E", "LCE", "L8E", "3x3"],
@@ -29,11 +29,13 @@ const splitsData = {
     "7x7": { "F2C": 0.2335, "F3E": 0.1095, "L4C": 0.2867, "L9E": 0.2936, "3x3": 0.0768 }
   },
   "Redux": {
+    "4x4": { "F2C": 0.0867, "L4C": 0.1370, "F8E": 0.3753, "L4E": 0.0959, "Edges": 0.4713, "3x3": 0.3051 },
     "5x5": { "F2C": 0.1354, "L4C": 0.1799, "F8E": 0.3475, "L4E": 0.135, "3x3": 0.2023 },
     "6x6": { "F2C": 0.1928, "L4C": 0.2454, "F8E": 0.3069, "L4E": 0.1129, "3x3": 0.142 },
     "7x7": { "F2C": 0.2295, "L4C": 0.2798, "F8E": 0.2851, "L4E": 0.1087, "3x3": 0.0968 }
   },
   "Hoya": {
+    "4x4": { "F4C": 0.2238, "F2C": 0.1044, "M2C": 0.1193, "F4E": 0.1957, "L2C": 0.0593, "L8E": 0.1962, "3x3": 0.3251 },
     "5x5": { "F4C": 0.2802, "F4E": 0.184, "L2C": 0.0595, "L8E": 0.3105, "3x3": 0.1695 },
     "6x6": { "F4C": 0.3956, "F4E": 0.175, "L2C": 0.0627, "L8E": 0.2405, "3x3": 0.1262 },
     "7x7": { "F4C": 0.4234, "F4E": 0.1599, "L2C": 0.085, "L8E": 0.2558, "3x3": 0.0759 }
@@ -71,21 +73,6 @@ const topSolversData = {
         },
         youtube: "https://youtu.be/c9HLAGxgA8Q",
         recon: "https://alg.cubing.net/?puzzle=4x4x4&setup=D-_F2_D_L2_B2_L2_D-_R2_F_U2_B-_L2_D-_B2_L_F-_R_F2_D2_Uw2_F2_Rw2_R-_D_Fw2_L-_D2_Rw2_D2_L-_U_F2_Fw-_Rw2_Uw2_F-_R2_Fw_B-_L_Uw_Fw_Rw-_R_B_Rw2&alg=z-_y_%2F%2F_inspection%0AD_x-_U2_D_r_U-_r2-_%2F%2F_yellow%0AU2_L-_y_R-_u_r_U-_U-_r-_%2F%2F_white%2FWO%0Az-_x-_3r_U2-_r-_3r_U_%2F%2F_WG%0Ax-_R_U_l-_L3_x_U-_%2F%2F_WB%0Ax_3r2-_r_U-_3r_U_r2-_U-_3r_U_3r-_r_%2F%2F_green%0AU_3r_U2_r_U-_r2-_U-_U-_r_%2F%2F_orange%0AU-_r_U-_r2-_3r_U2_l_%2F%2F_red%2Fblue%0Ax-_z-_u-_R-_U-_R_u_R-_%2F%2F_WR%0Au-_U2_L-_U_L_y-_U_L-_U_L_y-_y-_U_u_%2F%2F_YR%2FYG%2FYO%0AU-_U_F-_U_F_u-_U-_R_U-_R-_u_%2F%2F_RG%2FOB%0AU-_R_U-_R-_u-_U_R_U-_R-_u_%2F%2F_RB%2FOG%2FYB%0AU_R_U-_R-_U_R_U_R-_%2F%2F_1st_pair%0AL-_U2_L_U-_U-_L-_U_L_%2F%2F_2nd_pair%0AR-_U2_R_U-_U-_R-_U_R_%2F%2F_3rd_pair%0Ay-_U-_L-_U_L_U_y-_R_U-_R-_%2F%2F_4th_pair%0AU_r_U2-_x_r_U2_r_U2-_r-_U2_l_U2_r-_U2-_r_U2_r-_U2-_r-_%2F%2F_OParity%0AU-_R-_F2_R_U2_R_U-_U-_R-_F2_U-_R_U-_R-_%2F%2F_COLL%0AU-_m2-_U-_m2-_U2-_m2-_U-_m2-_%2F%2F_EPLL"
-      },
-
-      {
-        solver: "Sebastian Weyer",
-        time: "28.54",
-        splits: {
-          "F2C": "3.78",
-          "F3E": "2.87",
-          "L4C": "3.4",
-          "LCE": "1.73",
-          "L8E": "5.3",
-          "3x3": "11.46"
-        },
-        youtube: "https://youtu.be/c9HLAGxgA8Q",
-        recon: "https://alg.cubing.net/?puzzle=4x4x4&setup=F2_D2_L-_B_R_U-_F2_R2_B-_L-_B-_L2_U2_L2_U2_B-_U2_R2_F2_Rw2_Fw2_L-_D2_F_L_Uw2_R2_Uw2_B2_Rw2_F-_R2_Uw-_U_B_Uw-_R-_B_Rw-_Uw-_D2_Fw_D2_Rw2_U2&alg=z_%2F%2F_inspection%0AF2_r-_F_r-_%2F%2F_yellow%0Ay-_y-_F2_u_D_U2_U-_U-_r_U-_U-_r-_%2F%2F_white%0Az-_U2_x-_D_%2F%2F_WO%0A3r_U2_r_3r-_D-_%2F%2F_WB%0AU_R_R-_U_x-_R2_U_r_F-_%2F%2F_WG%0Ax_L_U-_U-_r2_U_3r2_U2_3r_U_r_%2F%2F_red%0AU_3r2-_r_r_U-_U-_r-_3r_U-_r-_%2F%2F_green%0AU_3r_r-_U_r_U-_r-_U2_%2F%2F_orange%2Fblue%0Az-_y-_u-_R_U_R-_F_R-_F-_R_u2_F_D_%2F%2F_WR%0Au-_U_U-_R_U-_R-_U2_y-_R_U-_R-_y-_U-_R_U-_R-_y-_u_%2F%2F_RG%2FRB%0Ad_U-_F_R-_F-_R_d-_%2F%2F_OG%2FOB%2FYB%0AL-_U_L_U-_R_U-_R-_u-_R_U-_R-_u_%2F%2F_YG%2FYR%2FYO%0AU_U_R-_U-_R_U-_R-_L_U-_L-_%2F%2F_1st_pair%0AR_U-_U-_R_U_R2-_%2F%2F_2nd_pair%0AU_R_F_U_F-_%2F%2F_3rd_pair%0AR-_U2_R_U-_R-_U_R_%2F%2F_4th_pair%0AU_r_U2-_x_r_U2_r_U2-_r-_U2_l_U2_r-_U2-_r_U2_r-_U2-_r-_%2F%2F_OParity%0AU_F_U_R_U2_R-_U-_R_U_R-_F-_%2F%2F_OLL%0AU-_3f_R_U_R-_U-_3f-_r_U_r-_R_U_R-_r-_U-_r2_U-_r-_U_r-_U-_R_U_R-_U_r_U_%2F%2F_PParity"
       },
 
       {
@@ -299,21 +286,6 @@ const topSolversData = {
       },
 
        {
-        solver: "Zecharaya Moshavi",
-        time: "21.45",
-        splits: {
-          "F2C": "3.87",
-          "F3E": "2.8",
-          "L4C": "3.57",
-          "LCE": "1.77",
-          "L8E": "4.4",
-          "3x3": "5.04"
-        },
-        youtube: "https://youtu.be/lMlU2sUwtYo",
-        recon: "https://alg.cubing.net/?puzzle=4x4x4&setup=R2_F_B2_D2_L_R2_B2_L-_U2_R2_F2_D2_F_L-_R-_D_L-_U-_R2_B_Fw2_U-_R-_Fw2_R_Uw2_U-_L_Fw2_Rw2_R-_U2_Fw_D2_U_R2_Fw_L-_Rw_Uw_R_Fw-_L2_Uw-_D2&alg=x2_y_%2F%2F_inspection%0AD_L-_R-_l-_u_l_%2F%2F_white%2FWO%0Ay-_D_x_U-_r-_U-_r_3r-_3d_r_U2-_r-_%2F%2F_yellow%0Az_3r-_L-_U_r2_3r2-_U-_%2F%2F_WR%0A3r_F-_r2-_L_D-_%2F%2F_WG%0A3r-_r2_U-_3r_r-_U2_3r_r-_U_r_%2F%2F_orange%0A3r_r_U-_r-_U_r2_U2-_r2-_%2F%2F_green%0AU2-_r_U_r-_%2F%2F_blue%2Fred%0Ax-_z-_u-_R_U_R-_u_D-_U_L_D_%2F%2F_WB%0Au-_U_U_L_U-_L-_R-_U2-_R_U_R_U-_R-_u_R_U-_R-_y-_R_U-_R-_d_R-_U2_R_u-_%2F%2F_edges%0Ay_y-_R_U-_R2-_U_R2_%2F%2F_1st_pair%0AU2-_R-_%2F%2F_2nd_pair%0Ay-_D_R_U-_R-_D-_%2F%2F_3rd_pair%0AU-_R_U_R-_U-_R_U_R-_%2F%2F_4th_pair%0AU2_U2_3l-_U-_L_U_3l_F-_L-_F_U_%2F%2F_ZBLL"
-      },
-
-       {
         solver: "Patrick Ponce",
         time: "18.06",
         splits: {
@@ -370,21 +342,6 @@ const topSolversData = {
         },
         youtube: "https://youtu.be/LgsKbRjkRAc",
         recon: "https://alg.cubing.net/?puzzle=4x4x4&setup=L_D2_R2_D-_R2_L2_U_L2_B2_U-_F2_D_L-_F_D2_R_U-_D-_R-_D-_Fw2_L_F2_Uw2_L-_U_Rw2_D_R_Fw2_F2_U2_B-_L-_Fw-_D_F2_Uw-_F2_Uw_Fw_Uw_R_D2_F&alg=y2_%2F%2F_inspection%0AU_r_U_r-_U-_r-_%2F%2F_yellow%0Ay_x_3l_u_U2-_l-_U2_l_%2F%2F_white%0Az-_U-_3l_U-_r2_U-_%2F%2F_WR%0Ax-_U-_x_x-_L-_R2_x-_U_2L-_U_%2F%2F_WB%0A3l_U_L-_R_3l_U-_r2_B_%2F%2F_WG%0AU_r_r-_3r_r-_U-_3r_U-_r-_U-_3r_U2-_r2-_%2F%2F_blue%0A3r_r-_U-_r-_U2-_r2_%2F%2F_red%0A3r-_U_r_U-_r-_3r_r-_U2_r_%2F%2F_green%2Forange%0Az-_u_U-_F_U-_F-_u-_D2_R-_U-_D2-_%2F%2F_WO%0Au_y-_U_R_U-_R-_y_R_U-_R-_y_y_L-_U_L_d-_%2F%2F_YO%2FBR%2FGO%2FGR%2FBO%0AU_U-_U_R_U-_R-_y_R_U-_R-_u_y-_R_U-_R-_u-_%2F%2F_YG%2FYR%2FYB%0AU-_R_U-_R-_U-_R_U-_R2-_F_R_3d-_L-_%2F%2F_1st%2F2nd_pairs%0AU_R_U-_R2-_U-_R_%2F%2F_3rd_pair%0Ay_L-_U_L_U_L-_U_L_U-_L-_U_L_%2F%2F_4th_pair%0AU2-_3r-_U2-_R_U_R-_U_3r_%2F%2F_OLL%0AU-_R2-_U-_R_U-_R_U_R-_U_R2_U_D-_R_U-_R-_D_U-_U-_%2F%2F_PLL"
-      },
-
-       {
-        solver: "Burno Li Chak Kwan (李澤堃)",
-        time: "20.86",
-        splits: {
-          "F2C": "2.1",
-          "F3E": "3.87",
-          "L4C": "3.82",
-          "LCE": "1.97",
-          "L8E": "2.67",
-          "3x3": "6.43"
-        },
-        youtube: "https://youtu.be/Z_Jyf03RHos",
-        recon: "https://alg.cubing.net/?puzzle=4x4x4&setup=R2_U2_F_L2_B-_R2_B2_R2_B-_D_U_R-_L_D-_L_F_U2_L_B-_Rw2_Uw2_L-_B-_U2_B_Uw2_F2_D2_Rw2_L-_D2_R2_Uw_F2_U2_Fw2_B-_Uw_Rw-_F_R2_Uw_B2_Rw&alg=z-_y-_%2F%2F_inspection%0Au-_x-_U-_r_U-_r2-_%2F%2F_white%0Ay_r-_F2_r_x-_l-_U-_l_%2F%2F_yellow%0Ay-_U_U-_x-_U_3r-_U-_3r_r-_U_%2F%2F_WR%0Ax_U-_r2_3r2-_D-_%2F%2F_WB%0AU_R_U-_r_3r2-_F_%2F%2F_WO%0A3r2_3r_3r_U-_r-_U-_U-_r2_U_r2-_%2F%2F_blue%0A3r_r_U2-_r-_3r_r-_U2-_r_%2F%2F_red%0AU-_r_U-_r-_%2F%2F_orange%2Fgreen%0Ax2_z-_u_U-_F_R-_F-_R_u-_D-_F_D_%2F%2F_WG%0Ay_u-_y_L-_U_L_y_L-_U_L_u_%2F%2F_GO%2FGR%0AU-_u-_U_R_U-_R-_u_%2F%2F_YO%2FYG%2FBR%0AU_L-_U2_L_U-_L-_U_L_%2F%2F_1st_pair%0Ay_U_U-_R-_U_R_U-_R_U-_R2-_U_R_%2F%2F_2nd_pair%0Ay-_R-_U-_R_U2_R_U-_R2-_U-_R_U2_R-_U_R_%2F%2F_3rd%2F4th_pairs%0AU_R-_U-_F-_U_F_R_%2F%2F_OLL%0AU_R2-_F_R_U_R_U-_R-_F-_R_U2-_R-_U2_R_U2-_%2F%2F_PLL"
       },
 
        {
@@ -563,6 +520,159 @@ const topSolversData = {
 
   // TO-DO: Actually gather data for this
   "Redux": {
+    "4x4": [
+      {
+        solver: "Caio Hideaki Sato",
+        time: "24.98",
+        splits: {
+          "F2C": "1.66",
+          "L4C": "3.23",
+          "F8E": "8.16",
+          "L4E": "3.46",
+          "Edges": "11.62",
+          "3x3": "8.47"
+        },
+        youtube: "https://youtu.be/-GTmaqPTZeQ",
+        recon: ""
+      },
+
+      {
+        solver: "Caio Hideaki Sato",
+        time: "29.80",
+        splits: {
+          "F2C": "2.5",
+          "L4C": "4.16",
+          "F8E": "9.1",
+          "L4E": "2.66",
+          "Edges": "11.76",
+          "3x3": "11.38"
+        },
+        youtube: "https://youtu.be/-GTmaqPTZeQ",
+        recon: ""
+      },
+
+      {
+        solver: "Caio Hideaki Sato",
+        time: "24.43",
+        splits: {
+          "F2C": "1.96",
+          "L4C": "3.06",
+          "F8E": "11.36",
+          "L4E": "2.63",
+          "Edges": "13.99",
+          "3x3": "5.42"
+        },
+        youtube: "https://youtu.be/-GTmaqPTZeQ",
+        recon: ""
+      },
+
+      {
+        solver: "Caio Hideaki Sato",
+        time: "25.28",
+        splits: {
+          "F2C": "1.76",
+          "L4C": "3.3",
+          "F8E": "11.6",
+          "L4E": "2.3",
+          "Edges": "13.9",
+          "3x3": "6.32"
+        },
+        youtube: "https://youtu.be/-GTmaqPTZeQ",
+        recon: ""
+      },
+
+      {
+        solver: "Caio Hideaki Sato",
+        time: "28.48",
+        splits: {
+          "F2C": "1.53",
+          "L4C": "3.96",
+          "F8E": "11.23",
+          "L4E": "2.8",
+          "Edges": "14.03",
+          "3x3": "8.96"
+        },
+        youtube: "https://youtu.be/-GTmaqPTZeQ",
+        recon: ""
+      },
+
+      {
+        solver: "Caio Hideaki Sato",
+        time: "24.03",
+        splits: {
+          "F2C": "1.9",
+          "L4C": "4.03",
+          "F8E": "8.56",
+          "L4E": "3.2",
+          "Edges": "11.76",
+          "3x3": "6.34"
+        },
+        youtube: "https://youtu.be/jM--pkXw9XM",
+        recon: ""
+      },
+
+      {
+        solver: "Caio Hideaki Sato",
+        time: "23.85",
+        splits: {
+          "F2C": "2.96",
+          "L4C": "3.13",
+          "F8E": "8",
+          "L4E": "2.16",
+          "Edges": "10.16",
+          "3x3": "7.6"
+        },
+        youtube: "https://youtu.be/jM--pkXw9XM",
+        recon: ""
+      },
+
+      {
+        solver: "Caio Hideaki Sato",
+        time: "25.03",
+        splits: {
+          "F2C": "3.3",
+          "L4C": "4",
+          "F8E": "8.46",
+          "L4E": "2.33",
+          "Edges": "10.79",
+          "3x3": "6.94"
+        },
+        youtube: "https://youtu.be/jM--pkXw9XM",
+        recon: ""
+      },
+
+      {
+        solver: "Caio Hideaki Sato",
+        time: "27.06",
+        splits: {
+          "F2C": "3.33",
+          "L4C": "3.46",
+          "F8E": "9.36",
+          "L4E": "1.63",
+          "Edges": "10.99",
+          "3x3": "9.28"
+        },
+        youtube: "https://youtu.be/jM--pkXw9XM",
+        recon: ""
+      },
+
+      {
+        solver: "Caio Hideaki Sato",
+        time: "24.32",
+        splits: {
+          "F2C": "1.33",
+          "L4C": "2.9",
+          "F8E": "10.4",
+          "L4E": "1.4",
+          "Edges": "11.8",
+          "3x3": "8.29"
+        },
+        youtube: "https://youtu.be/jM--pkXw9XM",
+        recon: ""
+      },
+      
+      
+    ],
     "5x5": [
       {
         solver: "",
@@ -601,38 +711,6 @@ const topSolversData = {
 
       {
         solver: "Ray Bai",
-        time: "29.74",
-        splits: {
-          "F2C": "2.86",
-          "M2C": "3.43",
-          "F4C": "6.29",
-          "F4E": "3.93",
-          "L2C": "1.3",
-          "L8E": "5.43",
-          "3x3": "12.79"
-        },
-        youtube: "https://youtu.be/tIMZS4tZxCY&t=28",
-        recon: ""
-      },
-
-      {
-        solver: "Ray Bai",
-        time: "27.79",
-        splits: {
-          "F2C": "2.83",
-          "M2C": "2.9",
-          "F4C": "5.73",
-          "F4E": "5.16",
-          "L2C": "1.9",
-          "L8E": "5.7",
-          "3x3": "9.3"
-        },
-        youtube: "https://youtu.be/tIMZS4tZxCY&t=58",
-        recon: ""
-      },
-
-      {
-        solver: "Ray Bai",
         time: "22.97",
         splits: {
           "F2C": "2.63",
@@ -664,20 +742,181 @@ const topSolversData = {
       },
 
       {
-        solver: "",
-        time: "",
+        solver: "Ray Bai",
+        time: "22.47",
         splits: {
-          "F2C": "",
-          "M2C": "",
-          "F4C": "",
-          "F4E": "",
-          "L2C": "",
-          "L8E": "",
-          "3x3": ""
+          "F2C": "2.6",
+          "M2C": "2.53",
+          "F4C": "4.03",
+          "F4E": "3.86",
+          "L2C": "2.06",
+          "L8E": "4.73",
+          "3x3": "7.66"
         },
-        youtube: "",
+        youtube: "https://youtu.be/tIMZS4tZxCY&t=114",
         recon: ""
-      }
+      },
+
+      {
+        solver: "Ray Bai",
+        time: "23.50",
+        splits: {
+          "F2C": "3.26",
+          "M2C": "2.9",
+          "F4C": "6.16",
+          "F4E": "4.33",
+          "L2C": "1.06",
+          "L8E": "4.6",
+          "3x3": "7.35"
+        },
+        youtube: "https://youtu.be/tIMZS4tZxCY&t=114",
+        recon: ""
+      },
+
+      {
+        solver: "Ray Bai",
+        time: "24.67",
+        splits: {
+          "F2C": "3.8",
+          "M2C": "2.93",
+          "F4C": "6.73",
+          "F4E": "5.03",
+          "L2C": "2.12",
+          "L8E": "2.4",
+          "3x3": "8.39"
+        },
+        youtube: "https://youtu.be/tIMZS4tZxCY&t=114",
+        recon: ""
+      },
+
+      {
+        solver: "Ray Bai",
+        time: "23.08",
+        splits: {
+          "F2C": "3.86",
+          "M2C": "3.8",
+          "F4C": "7.66",
+          "F4E": "4.73",
+          "L2C": "1.93",
+          "L8E": "4.56",
+          "3x3": "4.2"
+        },
+        youtube: "https://youtu.be/tIMZS4tZxCY&t=114",
+        recon: ""
+      },
+
+      {
+        solver: "Ray Bai",
+        time: "22.34",
+        splits: {
+          "F2C": "1.50",
+          "M2C": "2.53",
+          "F4C": "4.03",
+          "F4E": "3.86",
+          "L2C": "2.06",
+          "L8E": "4.73",
+          "3x3": "7.66"
+        },
+        youtube: "https://youtu.be/tIMZS4tZxCY&t=114",
+        recon: ""
+      },
+
+      {
+        solver: "Alwin Rölz",
+        time: "25.55",
+        splits: {
+          "F2C": "2.26",
+          "M2C": "2.43",
+          "F4C": "4.69",
+          "F4E": "5.70",
+          "L2C": "1.06",
+          "L8E": "5.4",
+          "3x3": "8.7"
+        },
+        youtube: "https://youtu.be/GVle49w9W4o",
+        recon: ""
+      },
+
+      {
+        solver: "Alwin Rölz",
+        time: "27.97",
+        splits: {
+          "F2C": "2.3",
+          "M2C": "5.66",
+          "F4C": "7.96",
+          "F4E": "5.2",
+          "L2C": "1.46",
+          "L8E": "5.43",
+          "3x3": "7.92"
+        },
+        youtube: "https://youtu.be/GVle49w9W4o",
+        recon: ""
+      },
+
+      {
+        solver: "Alwin Rölz",
+        time: "26.83",
+        splits: {
+          "F2C": "2.33",
+          "M2C": "2.8",
+          "F4C": "5.13",
+          "F4E": "4.26",
+          "L2C": "1.3",
+          "L8E": "7.23",
+          "3x3": "8.91"
+        },
+        youtube: "https://youtu.be/GVle49w9W4o",
+        recon: ""
+      },
+
+      {
+        solver: "Luke Tycksen",
+        time: "28.86",
+        splits: {
+          "F2C": "3.13",
+          "M2C": "2.83",
+          "F4C": "5.96",
+          "F4E": "4.47",
+          "L2C": "2.03",
+          "L8E": "5.57",
+          "3x3": "10.83"
+        },
+        youtube: "https://youtu.be/-6zRSChBFUM",
+        recon: ""
+      },
+
+      {
+        solver: "Luke Tycksen",
+        time: "26.89",
+        splits: {
+          "F2C": "3.27",
+          "M2C": "2.76",
+          "F4C": "6.03",
+          "F4E": "5.67",
+          "L2C": "2.16",
+          "L8E": "4.1",
+          "3x3": "8.93"
+        },
+        youtube: "https://youtu.be/-6zRSChBFUM",
+        recon: ""
+      },
+
+      {
+        solver: "Luke Tycksen",
+        time: "26.21",
+        splits: {
+          "F2C": "2.06",
+          "M2C": "2.40",
+          "F4C": "4.46",
+          "F4E": "6.70",
+          "L2C": "1.80",
+          "L8E": "3.63",
+          "3x3": "9.62"
+        },
+        youtube: "https://youtu.be/-6zRSChBFUM",
+        recon: ""
+      },
+
     ],
     "5x5": [
       {
@@ -776,7 +1015,6 @@ window.addEventListener("load", () => {
 });
 
 
-
 function getStepsWithToggles(puzzle, method) {
 
   // .slice() returns selected elements in a new array (in case I want to add more splits)
@@ -796,8 +1034,8 @@ function getStepsWithToggles(puzzle, method) {
     l9eToggleDiv.classList.add("hidden");
   }
 
-  // For Hoya on 5x5/6x6/7x7, toggle between F4C and (F2C, M2C) 
-  if (method === "Hoya" && ["5x5", "6x6", "7x7"].includes(puzzle)) {
+  // For Hoya on 4x4/5x5/6x6/7x7, toggle between F4C and (F2C, M2C) 
+  if (method === "Hoya") {
     f4cToggleDiv.classList.remove("hidden");
     if (f4cToggle.checked) {
       // Show F2C and M2C, hide F4C
