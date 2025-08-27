@@ -1,22 +1,22 @@
 const splitsSteps = {
   "4x4": {
     "Yau":   ["F2C", "F3E", "L4C", "LCE", "L8E", "3x3"],
-    "Redux": ["F2C", "L4C", "F8E", "L4E", "3x3"],
+    "Redux": ["F2C", "L4C", "F8E", "L4E", "Edges", "3x3"],
     "Hoya":  ["F4C", "F2C", "M2C", "F4E", "L2C", "L8E", "3x3"]
   },
   "5x5": {
     "Yau":   ["F2C", "F3E", "L4C", "L9E", "LCE", "L8E", "3x3"],
-    "Redux": ["F2C", "L4C", "F8E", "L4E", "3x3"],
+    "Redux": ["F2C", "L4C", "F8E", "L4E", "Edges", "3x3"],
     "Hoya":  ["F4C", "F2C", "M2C", "F4E", "L2C", "L8E", "3x3"]
   },
   "6x6": {
     "Yau":   ["F2C", "F3E", "L4C", "L9E", "LCE", "L8E", "3x3"],
-    "Redux": ["F2C", "L4C", "F8E", "L4E", "3x3"],
+    "Redux": ["F2C", "L4C", "F8E", "L4E", "Edges", "3x3"],
     "Hoya":  ["F4C", "F2C", "M2C", "F4E", "L2C", "L8E", "3x3"]
   },
   "7x7": {
     "Yau":   ["F2C", "F3E", "L4C", "L9E", "LCE", "L8E", "3x3"],
-    "Redux": ["F2C", "L4C", "F8E", "L4E", "3x3"],
+    "Redux": ["F2C", "L4C", "F8E", "L4E", "Edges", "3x3"],
     "Hoya":  ["F4C", "F2C", "M2C", "F4E", "L2C", "L8E", "3x3"]
   }
 };
@@ -989,9 +989,16 @@ const l9eToggleDiv = document.getElementById("l9e-toggle-button");
 const l9eToggle = document.getElementById("toggle-l9e");
 const f4cToggleDiv = document.getElementById("f4c-toggle-button");
 const f4cToggle = document.getElementById("toggle-f4c");
+const edgesToggleDiv = document.getElementById("edges-toggle-button");
+const edgesToggle = document.getElementById("toggle-edges");
+const whatIfToggleDiv = document.getElementById("whatif-toggle-button");
+const whatIfToggle = document.getElementById("toggle-whatif");
 const darkModeToggle = document.getElementById("dark-mode-toggle");
 
 let customSplits = {}; // e.g. { "L4C": 12.34 }
+let whatIfSplits = {}; 
+let userSplits = {}; 
+let whatIfMode = false;
 
 darkModeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
@@ -1013,7 +1020,6 @@ window.addEventListener("load", () => {
     darkModeToggle.textContent = "🌙";
   }
 });
-
 
 function getStepsWithToggles(puzzle, method) {
 
@@ -1048,6 +1054,19 @@ function getStepsWithToggles(puzzle, method) {
     f4cToggleDiv.classList.add("hidden");
   }
 
+  // For Redux on 4x4/5x5/6x6/7x7, toggle between Edges and (F8E, L4E)
+  if (method === "Redux") {
+    edgesToggleDiv.classList.remove("hidden");
+    if (edgesToggle.checked) {
+      // Show Edges, hide F8E and L4E
+      steps = steps.filter(step => step !== "F8E" && step !== "L4E");
+    } else {
+      // Show F8E and L4E, hide Edges
+      steps = steps.filter(step => step !== "Edges");
+    }
+  } else {
+    edgesToggleDiv.classList.add("hidden");
+  }
   return steps;
 }
 
@@ -1079,7 +1098,6 @@ function buildTableArray(puzzle, method, avgSeconds) {
         propSteps.push(step);
       }
     });
-
     // Now build the "suggested times" row for the table
     const suggestedRow = steps.map(step => {
       if (customSplits[step] !== undefined && customSplits[step] !== "") {
@@ -1094,11 +1112,9 @@ function buildTableArray(puzzle, method, avgSeconds) {
       // If we don’t know what to do, just put a dash
       return "-";
     });
-
     // Add that row under the steps
     tableArray.push(suggestedRow);
   }
-
   // Return the full table
   return tableArray;
 }
@@ -1185,20 +1201,6 @@ function updateTable() {
   tableBody.appendChild(inputRow);
 }
 
-function resetSplitsAndUpdate() {
-  customSplits = {};
-  updateTables();
-}
-
-puzzleSelect.addEventListener("change", resetSplitsAndUpdate);
-methodSelect.addEventListener("change", resetSplitsAndUpdate);
-l9eToggle.addEventListener("change", updateTables);
-f4cToggle.addEventListener("change", updateTables);
-avgInput.addEventListener("input", updateTables);
-document.getElementById("reset-splits-btn").addEventListener("click", resetSplitsAndUpdate);
-
-updateTables();
-
 function updateTables() {
   const puzzle = puzzleSelect.value;
   const method = methodSelect.value;
@@ -1221,7 +1223,8 @@ function updateTables() {
 
   const customInputRow = document.createElement("tr");
   let userSum = 0;
-  steps.forEach((step, idx) => {
+  
+  steps.forEach(step => {
     const td = document.createElement("td");
     td.style.background = "#fffbe6";
     td.style.cursor = "pointer";
@@ -1275,18 +1278,96 @@ function updateTables() {
   estHeaderRow.appendChild(document.createElement("th")).textContent = "Average";
   estimatedSplitsTableHead.appendChild(estHeaderRow);
 
+  // This will what-if values from proportions so cells show up immediately
+  if (whatIfMode && Object.keys(whatIfSplits).length === 0) {
+    steps.forEach(step => {
+      const w = proportions[step];
+      if (w && avgSeconds) {
+        whatIfSplits[step] = parseFloat((avgSeconds * w).toFixed(2));
+      }
+    });
+  }
+
   const estRow = document.createElement("tr");
   let estSum = 0;
+
   steps.forEach(step => {
-    let val = "";
-    if (proportions[step] && avgSeconds) {
-      val = (proportions[step] * avgSeconds).toFixed(2);
-      estSum += parseFloat(val);
-    }
     const td = document.createElement("td");
-    td.textContent = val;
+    let value = "";
+
+    if (whatIfMode) {
+      // what-if shows ONLY whatIfSplits
+      if (whatIfSplits[step] !== undefined && whatIfSplits[step] !== "") {
+        value = parseFloat(whatIfSplits[step]).toFixed(2);
+      }
+    } else {
+      // normal mode is PURE proportions; never copy customSplits
+      const w = proportions[step];
+      if (w && avgSeconds) value = (avgSeconds * w).toFixed(2);
+    }
+
+    if (whatIfMode) {
+      td.textContent = value;
+      td.style.cursor = "pointer";
+      td.style.background = "#fffbe6";
+
+      td.addEventListener("click", function handleClick() {
+        const input = document.createElement("input");
+        input.type = "number";
+        input.step = "0.01";
+        input.min = "0";
+        input.style.width = "70px";
+        input.value = value || "";
+
+        td.textContent = "";
+        td.appendChild(input);
+        input.focus();
+
+        function save() {
+          if (input.value === "") {
+            delete whatIfSplits[step];
+          } else {
+            const lockedValue = parseFloat(input.value);
+            if (!isNaN(lockedValue)) {
+              const lockedStep = step;
+
+              // This will recompute new whatIfSplits and IGNORES customSplits
+              whatIfSplits = {};
+              whatIfSplits[lockedStep] = lockedValue;
+
+              // Remaining time goes to other steps by weight
+              const remaining = (avgSeconds || 0) - lockedValue;
+
+              // This will sum weights for all other steps
+              let totalWeight = 0;
+              steps.forEach(s => {
+                if (s !== lockedStep) totalWeight += (proportions[s] || 0);
+              });
+
+              // This will distribute hopefully evenly lol
+              steps.forEach(s => {
+                if (s !== lockedStep) {
+                  const share = (proportions[s] || 0) / (totalWeight || 1);
+                  whatIfSplits[s] = parseFloat((remaining * share).toFixed(2));
+                }
+              });
+            }
+          }
+          updateTables();
+        }
+
+        input.addEventListener("blur", save);
+        input.addEventListener("keydown", e => { if (e.key === "Enter") input.blur(); });
+        td.removeEventListener("click", handleClick);
+      });
+    } else {
+      td.textContent = value;
+    }
+
+    if (value) estSum += parseFloat(value);
     estRow.appendChild(td);
   });
+
   const estAvgTd = document.createElement("td");
   estAvgTd.textContent = estSum ? estSum.toFixed(2) : "";
   estAvgTd.style.fontWeight = "bold";
@@ -1309,46 +1390,41 @@ function updateTables() {
   steps.forEach(step => {
     let percent = "";
     let percentValue = null;
-    if (
-      proportions[step] &&
-      avgSeconds &&
-      customSplits[step] !== undefined &&
-      customSplits[step] !== ""
-    ) {
-      const ideal = proportions[step] * avgSeconds;
-      const user = parseFloat(customSplits[step]);
-      percentValue = ((user - ideal) / ideal) * 100;
-      percent = percentValue.toFixed(1) + "%";
-    }
-    const td = document.createElement("td");
-    td.textContent = percent;
 
-    if (percentValue !== null) {
-      if (percentValue > 20) {
-        td.style.color = "#e57373"; // red for >20%
-        td.style.fontWeight = "bold";
-      } else if (percentValue < -20) {
-        td.style.color = "#388e3c"; // green for < -20%
-        td.style.fontWeight = "bold";
-      } else {
-        td.style.color = ""; // normal
-        td.style.fontWeight = "";
-      }
+  const user = customSplits[step] !== undefined && customSplits[step] !== "" ? parseFloat(customSplits[step]) : null;
+
+  let baseline = null;
+  if (whatIfMode && whatIfSplits[step] !== undefined && whatIfSplits[step] !== "") {
+    baseline = parseFloat(whatIfSplits[step]);
+  } else if (!whatIfMode && proportions[step] && avgSeconds) {
+    baseline = (avgSeconds * proportions[step]);
+  }
+
+  if (user !== null && baseline !== null && baseline > 0) {
+    percentValue = ((user - baseline) / baseline) * 100;
+    percent = percentValue.toFixed(1) + "%";
+  }
+  const td = document.createElement("td");
+  td.textContent = percent;
+
+  if (percentValue !== null) {
+    if (percentValue > 20) {
+      td.style.color = "#e57373";
+      td.style.fontWeight = "bold";
+    } else if (percentValue < -20) {
+      td.style.color = "#388e3c";
+      td.style.fontWeight = "bold";
     }
+  }
     varRow.appendChild(td);
   });
   variationTableBody.appendChild(varRow);
 
   const tipsList = document.getElementById("specific-tips");
-  tipsList.innerHTML = ""; 
+  tipsList.innerHTML = "";
 
   steps.forEach(step => {
-    if (
-      proportions[step] &&
-      avgSeconds &&
-      customSplits[step] !== undefined &&
-      customSplits[step] !== ""
-    ) {
+    if (proportions[step] && avgSeconds && customSplits[step] !== undefined && customSplits[step] !== "") {
       const ideal = proportions[step] * avgSeconds;
       const user = parseFloat(customSplits[step]);
       const percent = ((user - ideal) / ideal) * 100;
@@ -1366,6 +1442,7 @@ function updateTables() {
     tipsList.appendChild(li);
   }
 }
+
 
 function updateTopSolversTable() {
   const puzzle = puzzleSelect.value;
@@ -1430,7 +1507,6 @@ function updateTopSolversTable() {
   tr.appendChild(td);
 });
 
-
     const ytTd = document.createElement("td");
     if (solve.youtube) {
       const a = document.createElement("a");
@@ -1465,6 +1541,11 @@ function updateTopSolversTable() {
   }
 }
 
+function resetSplitsAndUpdate() {
+  customSplits = {};
+  updateTables();
+}
+
 puzzleSelect.addEventListener("change", () => {
   resetSplitsAndUpdate();
   updateTopSolversTable();
@@ -1474,9 +1555,23 @@ methodSelect.addEventListener("change", () => {
   updateTopSolversTable();
 });
 
+whatIfToggle.addEventListener("change", () => {
+  whatIfMode = whatIfToggle.checked;
+  updateTables();
+});
+
+puzzleSelect.addEventListener("change", resetSplitsAndUpdate);
+methodSelect.addEventListener("change", resetSplitsAndUpdate);
+l9eToggle.addEventListener("change", updateTables);
+f4cToggle.addEventListener("change", updateTables);
+edgesToggle.addEventListener("change", updateTables);
+avgInput.addEventListener("input", updateTables);
+document.getElementById("reset-splits-btn").addEventListener("click", resetSplitsAndUpdate);
 l9eToggle.addEventListener("change", updateTopSolversTable);
 f4cToggle.addEventListener("change", updateTopSolversTable);
+edgesToggle.addEventListener("change", updateTopSolversTable);
 
 updateTopSolversTable();
 updateTables();
+
 
