@@ -410,6 +410,21 @@ const topSolversData = {
         recon: ""
       },
       {
+        solver: "Ciarán Beahan",
+        time: "40.48",
+        splits: {
+          "F2C": "6.76",
+          "F3E": "5.5",
+          "L4C": "7.7",
+          "L9E": "15.69",
+          "LCE": "2.93",
+          "L8E": "12.76",
+          "3x3": "5.72"
+        },
+        youtube: "https://youtu.be/a29xkdmovH8?si=sB_1rAD4ve8ld0oR&t=242",
+        recon: ""
+      },
+      {
         solver: "Inigo Miguel B. Palisoc",
         time: "44.32",
         splits: {
