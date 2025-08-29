@@ -1293,15 +1293,24 @@ function updateTables() {
   estHeaderRow.appendChild(document.createElement("th")).textContent = "Average";
   estimatedSplitsTableHead.appendChild(estHeaderRow);
 
-  // This will what-if values from proportions so cells show up immediately
-  if (whatIfMode && Object.keys(whatIfSplits).length === 0) {
-    steps.forEach(step => {
-      const w = proportions[step];
-      if (w && avgSeconds) {
-        whatIfSplits[step] = parseFloat((avgSeconds * w).toFixed(2));
+  // This will store the steps that have been manually set in what-if mode
+  const lockedSteps = Object.keys(whatIfSplits);
+  let totalLockedTime = 0;
+  lockedSteps.forEach(step => {
+      if (whatIfSplits[step] !== "") {
+        totalLockedTime += parseFloat(whatIfSplits[step]);
       }
-    });
-  }
+  });
+
+  const remainingTime = (avgSeconds || 0) - totalLockedTime;
+  let totalPropWeightForUnlocked = 0;
+
+  // This will find the total proportional weight of all steps that are NOT locked
+  steps.forEach(step => {
+      if (!lockedSteps.includes(step)) {
+          totalPropWeightForUnlocked += (proportions[step] || 0);
+      }
+  });
 
   const estRow = document.createElement("tr");
   let estSum = 0;
@@ -1311,17 +1320,18 @@ function updateTables() {
     let value = "";
 
     if (whatIfMode) {
-      // what-if shows ONLY whatIfSplits
       if (whatIfSplits[step] !== undefined && whatIfSplits[step] !== "") {
-        value = parseFloat(whatIfSplits[step]).toFixed(2);
+          // If the step is locked, use the user-defined value
+          value = parseFloat(whatIfSplits[step]).toFixed(2);
+      } else {
+          // If the step is NOT locked, calculate its proportional value
+          const prop = proportions[step];
+          if (prop && totalPropWeightForUnlocked > 0 && avgSeconds) {
+              const share = (prop / totalPropWeightForUnlocked);
+              value = (remainingTime * share).toFixed(2);
+          }
       }
-    } else {
-      // normal mode is PURE proportions; never copy customSplits
-      const w = proportions[step];
-      if (w && avgSeconds) value = (avgSeconds * w).toFixed(2);
-    }
 
-    if (whatIfMode) {
       td.textContent = value;
       td.style.cursor = "pointer";
       td.style.background = "#fffbe6";
@@ -1344,27 +1354,23 @@ function updateTables() {
           } else {
             const lockedValue = parseFloat(input.value);
             if (!isNaN(lockedValue)) {
-              const lockedStep = step;
-
-              // This will recompute new whatIfSplits and IGNORES customSplits
+              // This is the key change:
+              // Reset whatIfSplits and then re-calculate all splits
               whatIfSplits = {};
-              whatIfSplits[lockedStep] = lockedValue;
+              whatIfSplits[step] = lockedValue;
 
-              // Remaining time goes to other steps by weight
-              const remaining = (avgSeconds || 0) - lockedValue;
-
-              // This will sum weights for all other steps
-              let totalWeight = 0;
+              const newLockedTime = lockedValue;
+              const newRemainingTime = (avgSeconds || 0) - newLockedTime;
+              let newTotalPropWeight = 0;
               steps.forEach(s => {
-                if (s !== lockedStep) totalWeight += (proportions[s] || 0);
+                  if (s !== step) newTotalPropWeight += (proportions[s] || 0);
               });
 
-              // This will distribute hopefully evenly lol
               steps.forEach(s => {
-                if (s !== lockedStep) {
-                  const share = (proportions[s] || 0) / (totalWeight || 1);
-                  whatIfSplits[s] = parseFloat((remaining * share).toFixed(2));
-                }
+                  if (s !== step) {
+                      const share = (proportions[s] || 0) / (newTotalPropWeight || 1);
+                      whatIfSplits[s] = parseFloat((newRemainingTime * share).toFixed(2));
+                  }
               });
             }
           }
@@ -1376,6 +1382,8 @@ function updateTables() {
         td.removeEventListener("click", handleClick);
       });
     } else {
+      const w = proportions[step];
+      if (w && avgSeconds) value = (avgSeconds * w).toFixed(2);
       td.textContent = value;
     }
 
@@ -1406,31 +1414,31 @@ function updateTables() {
     let percent = "";
     let percentValue = null;
 
-  const user = customSplits[step] !== undefined && customSplits[step] !== "" ? parseFloat(customSplits[step]) : null;
+    const user = customSplits[step] !== undefined && customSplits[step] !== "" ? parseFloat(customSplits[step]) : null;
 
-  let baseline = null;
-  if (whatIfMode && whatIfSplits[step] !== undefined && whatIfSplits[step] !== "") {
-    baseline = parseFloat(whatIfSplits[step]);
-  } else if (!whatIfMode && proportions[step] && avgSeconds) {
-    baseline = (avgSeconds * proportions[step]);
-  }
-
-  if (user !== null && baseline !== null && baseline > 0) {
-    percentValue = ((user - baseline) / baseline) * 100;
-    percent = percentValue.toFixed(1) + "%";
-  }
-  const td = document.createElement("td");
-  td.textContent = percent;
-
-  if (percentValue !== null) {
-    if (percentValue > 20) {
-      td.style.color = "#e57373";
-      td.style.fontWeight = "bold";
-    } else if (percentValue < -20) {
-      td.style.color = "#388e3c";
-      td.style.fontWeight = "bold";
+    let baseline = null;
+    if (whatIfMode && whatIfSplits[step] !== undefined && whatIfSplits[step] !== "") {
+      baseline = parseFloat(whatIfSplits[step]);
+    } else if (!whatIfMode && proportions[step] && avgSeconds) {
+      baseline = (avgSeconds * proportions[step]);
     }
-  }
+
+    if (user !== null && baseline !== null && baseline > 0) {
+      percentValue = ((user - baseline) / baseline) * 100;
+      percent = percentValue.toFixed(1) + "%";
+    }
+    const td = document.createElement("td");
+    td.textContent = percent;
+
+    if (percentValue !== null) {
+      if (percentValue > 20) {
+        td.style.color = "#e57373";
+        td.style.fontWeight = "bold";
+      } else if (percentValue < -20) {
+        td.style.color = "#388e3c";
+        td.style.fontWeight = "bold";
+      }
+    }
     varRow.appendChild(td);
   });
   variationTableBody.appendChild(varRow);
