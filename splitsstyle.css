@@ -281,9 +281,9 @@ input[type="checkbox"] {
 
 .page-layout {
   display: grid;
-  grid-template-columns: minmax(150px, 1fr) 2fr minmax(150px, 1fr);
+  grid-template-columns: 1fr;
   grid-template-areas: "main-controls tables-section optional-controls";
-  gap: 20px;
+  gap: 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
@@ -430,6 +430,7 @@ input[type="checkbox"] {
     grid-template-areas:
       "main-controls optional-controls"
       "tables-section tables-section";
+    gap: 2rem;
   }
 }
 
