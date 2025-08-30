@@ -108,7 +108,7 @@ input[type="checkbox"] {
 #custom-splits-table,
 #estimated-splits-table,
 #variation-table {
-    margin: 32px auto 0 auto;
+    margin: 5px auto 0 auto;
     border-collapse: separate;
     border-spacing: 0;
     background: #fff;
@@ -284,6 +284,7 @@ input[type="checkbox"] {
 .page-layout {
   display: grid;
   grid-template-columns: minmax(150px, 1fr) 2fr minmax(150px, 1fr);
+  grid-template-areas: "main-controls tables-section optional-controls";
   gap: 20px;
   max-width: 1400px;
   margin: 0 auto;
@@ -291,23 +292,17 @@ input[type="checkbox"] {
   align-items: start;
 }
 
+.main-controls { grid-area: main-controls; }
+.optional-controls { grid-area: optional-controls; }
+.tables-section { grid-area: tables-section; }
+
 @media (max-width: 1168px) {
   .page-layout {
-    grid-template-columns: 1fr 1fr;  
-    grid-template-areas: 
-      "main optional"
-      "tables tables";
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "main-controls optional-controls"
+      "tables-section tables-section";
   }
-}
-
-  .main-controls { grid-area: main; }
-  .optional-controls { grid-area: optional; }
-  .tables-section { grid-area: tables; }
-
-  .main-controls,
-  .optional-controls {
-    min-width: 250px;   
-    flex: 1;            
 }
 
 
