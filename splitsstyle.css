@@ -18,18 +18,16 @@ h1 {
 h3 {
     text-align: center;
     color: #6c63ff;
-    margin-top: 36px;
+    margin-top: 20px;
     margin-bottom: 10px;
     font-weight: 700;
     letter-spacing: 0.5px;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 
-p {
-    text-align: center;
-    color: #666;
-    margin-bottom: 28px;
-    font-size: 1em;
+p, li {
+  text-align: center;
+    font-size: 0.9em;
 }
 
 video {
@@ -108,7 +106,7 @@ input[type="checkbox"] {
 #custom-splits-table,
 #estimated-splits-table,
 #variation-table {
-    margin: 5px auto 0 auto;
+    margin: px auto 0 auto;
     border-collapse: separate;
     border-spacing: 0;
     background: #fff;
@@ -292,65 +290,42 @@ input[type="checkbox"] {
   align-items: start;
 }
 
-.main-controls { grid-area: main-controls; }
-.optional-controls { grid-area: optional-controls; }
-.tables-section { grid-area: tables-section; }
-
-@media (max-width: 1168px) {
-  .page-layout {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "main-controls optional-controls"
-      "tables-section tables-section";
-  }
+.main-controls, .optional-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 2px 8px rgba(108,99,255,0.07);
+    padding: 15px;
+    box-sizing: border-box;
 }
 
-
 .tables-section {
-  text-align: center;
-  width: 100%;
-  overflow-x: auto; 
-  padding: 0 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 8px;
+}
+
+#custom-splits-table, #estimated-splits-table, #variation-table, #top-solvers-table {
+    min-width: 320px;
+    width: 100%;
+}
+
+#custom-splits-table th, #custom-splits-table td,
+#estimated-splits-table th, #estimated-splits-table td,
+#variation-table th, #variation-table td,
+#top-solvers-table th, #top-solvers-table td {
+    padding: 8px 10px;
+    font-size: 0.9em;
 }
 
 .tables-section table {
-  min-width: 320px;
-}
-
-.main-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 2px 8px rgba(108,99,255,0.07);
-  padding: 20px 24px;
-  align-items: stretch;
-}
-
-.tables-section {
-  text-align: center;
-  max-width: 100%;
-  -webkit-overflow-scrolling: touch;
+  min-width: 300px;
 }
 
 .tables-section table {
   margin: 24px auto;
-}
-
-.main-controls, .optional-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 2px 8px rgba(108,99,255,0.07);
-  padding: 20px 24px;
-  flex: 1;            
-  min-width: 150px;    
-  max-width: 100%;      
-  align-items: stretch;
-  box-sizing: border-box;
 }
 
 .main-controls input,
@@ -435,6 +410,69 @@ input[type="checkbox"] {
 
 .hidden {
     display: none;
+}
+
+.main-controls { grid-area: main-controls; }
+.optional-controls { grid-area: optional-controls; }
+.tables-section { grid-area: tables-section; }
+
+
+@media (max-width: 768px) {
+    body {
+        padding: 0 10px 40px 10px;
+    }
+
+    .page-layout {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "main-controls"
+            "tables-section"
+            "optional-controls"; 
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .main-controls,
+    .optional-controls,
+    .tables-section {
+        width: 100%;
+    }
+
+    #custom-splits-table th, #custom-splits-table td,
+    #estimated-splits-table th, #estimated-splits-table td,
+    #variation-table th, #variation-table td,
+    #top-solvers-table th, #top-solvers-table td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+}
+
+@media (min-width: 769px) {
+    .page-layout {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "main-controls optional-controls"
+            "tables-section tables-section";
+        padding: 20px;
+        gap: 20px;
+    }
+}
+
+@media (min-width: 1169px) {
+    .page-layout {
+        grid-template-columns: minmax(150px, 1fr) 2fr minmax(150px, 1fr);
+        grid-template-areas: "main-controls tables-section optional-controls";
+        max-width: 1400px;
+    }
+}
+
+@media (max-width: 1168px) {
+  .page-layout {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "main-controls optional-controls"
+      "tables-section tables-section";
+  }
 }
 
 #dark-mode-toggle {
