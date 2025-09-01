@@ -41,7 +41,7 @@ It lets you record custom splits (per step of your solve), estimate splits based
 
 ## 🧑‍💻 Author
 
-Built by **Christian Naguio** – my first time using JavaScript ever, thanks for htis project.
+Built by **Christian Naguio** – my first time using JavaScript ever, thanks to this project.
 
 ---
 
