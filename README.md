@@ -8,25 +8,25 @@ It lets you record custom splits (per step of your solve), estimate splits based
 ## 🚀 Features
 
 * **Custom Splits Table**
-  Enter your own splits step by step based on the puzzle and method you selected.
+  * Enter your own splits step by step based on the puzzle and method you selected.
 
   * Editable fields
   * Automatically formats times into `mm:ss.mmm`
 
 * **Estimated Splits Table**
-  Dynamically calculates estimated splits from inputted averages.
+  * Dynamically calculates estimated splits from inputted averages.
 
 * **Top Solvers Leaderboard**
-  Displays fastest solvers with formatted times.
+  * Displays fastest solvers with formatted times.
 
   * Sortable by time
   * Updates instantly when data changes
 
 * **Responsive Design**
-  Scales to both mobile and desktop.
+  * Scales to both mobile and desktop.
 
 * **Dark Mode Toggle**
-  Switch themes with one click.
+  * Switch themes with one click.
 
 ## 📝 To-Do
 
