@@ -5,7 +5,7 @@ It lets you record custom splits (per step of your solve), estimate splits based
 
 ---
 
-## 🚀 Features
+## Features
 
 * **Custom Splits Table**
   * Enter your own splits step by step based on the puzzle and method you selected.
@@ -28,7 +28,7 @@ It lets you record custom splits (per step of your solve), estimate splits based
 * **Dark Mode Toggle**
   * Switch themes with one click.
 
-## 📝 To-Do
+## To-Do
 
 * [ ] Fix duplicate `<table>` bug in HTML.
 * [ ] Remove redundant `formatTime` and `updateTopSolversTable` functions.
@@ -39,9 +39,9 @@ It lets you record custom splits (per step of your solve), estimate splits based
 
 ---
 
-## 🧑‍💻 Author
+## Author
 
-Built by **Christian Naguio** – my first time using JavaScript ever, thanks to this project.
+Built by **Christian Naguio**: my first time using JavaScript ever, thanks to this project.
 
 ---
 
